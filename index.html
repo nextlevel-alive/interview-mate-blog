@@ -883,7 +883,7 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
         </button>
         <button class="si-tab-btn" onclick="switchTranscriptTab('pass', this)">
           <span class="si-badge si-badge-pass">✓ 합격</span>
-          삼성전자 · 패키지 개발
+          삼성전자 · 반도체 공정기술
         </button>
       </div>
 
@@ -945,47 +945,73 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
         <div class="si-transcript-header si-pass-header">
           <div>
             <div class="si-transcript-co">삼성전자</div>
-            <div class="si-transcript-role">패키지 개발 직무 · 임원 면접 (21년 하반기)</div>
+            <div class="si-transcript-role">반도체 공정기술 직무 · 임원 면접</div>
           </div>
           <span class="si-badge si-badge-pass">✓ 합격</span>
         </div>
         <div class="si-qa-list">
+
           <div class="si-qa-item">
             <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">1분 자기소개 해주세요</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">안녕하십니까? 패키지 개발 직무에 지원한 [이름]입니다.<br><br><strong style="color:#059669;">[필살기 1]</strong> 비스무트와 균일한 전착을 통해 크리스탈 생성 효율 80% 달성에 성공한 경험이 있습니다. 분산성을 주의하여 비스무트와 균일한 전착에 성공시켰고, 그 결과 크리스탈 생성 효율 20%p 향상에 성공했습니다.<br><br><strong style="color:#059669;">[필살기 2]</strong> 또한 세계 최초로 배가스를 직접 전기분해한 경험이 있습니다. 가스 전극을 기존 5배 향상시키며 크리스탈 생성 효율 2배 향상에 성공하고, 이를 통해 배가스 직접 전기분해에 성공했습니다.<br><br>이런 전기화학적인 지식을 기반으로 RDL 공정 중 구리의 균일한 증착에 기여하고 싶습니다.</div></div>
-            <div class="si-analysis si-analysis-pass"><span>✓</span> 수치(80%, 20%p, 5배, 2배)와 함께 필살기 2개를 명확히 제시 → 다음 질문이 바로 K질문으로 연결됨.</div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">안녕하십니까. 삼성전자 반도체 공정기술 직무에 지원한 ㅇㅇㅇ입니다.<br><br><strong style="color:#059669;">[필살기 1]</strong> 식각 공정 실험에서 웨이퍼 불량률을 15% 감소시킨 경험이 있습니다. 초기에는 플라즈마 균일도가 맞지 않아 패턴 손상이 반복됐지만, RF 파워와 가스 유량 조건을 단계별로 조정하며 데이터를 비교 분석했습니다. 그 결과 공정 균일도를 개선했고, 수율을 기존 대비 12% 향상시킬 수 있었습니다.<br><br><strong style="color:#059669;">[필살기 2]</strong> 공정 자동화 프로젝트를 통해 데이터 분석 시간을 70% 단축한 경험이 있습니다. 기존에는 수작업으로 측정 데이터를 정리했지만, Python 기반 자동화 코드를 제작해 공정 데이터를 실시간으로 정리할 수 있도록 개선했습니다. 이를 통해 엔지니어들의 분석 속도를 높였고, 공정 이상 탐지 시간까지 크게 줄일 수 있었습니다.<br><br>이처럼 데이터 기반으로 공정 문제를 해결한 경험을 바탕으로, 삼성전자에서도 반도체 공정 수율 향상에 기여하는 엔지니어가 되겠습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 수치(불량률 15%↓, 수율 12%↑, 분석시간 70%↓)와 함께 필살기 2개를 명확히 제시 → 다음 질문이 바로 K질문으로 연결됨.</div>
           </div>
+
           <div class="si-qa-item">
-            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">크리스탈이 인체에 위해한 거잖아요? safety 관리는 어떻게 하셨어요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">후드 안에서만 실험을 진행하고, 마스크와 장갑을 끼며 크리스탈이 뿌려지지 않게 조심했습니다.</div></div>
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">공정 최적화를 통해 수율을 개선한 경험이라고 말씀해주셨는데, 반도체 공정은 작은 오차에도 불량이 발생하잖아요. 실험 과정에서 변수 관리는 어떻게 하셨나요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">저도 가장 중요하게 생각했던 부분도 변수 통제였습니다. 초기에는 플라즈마 세기와 가스 유량이 조금만 달라져도 패턴 손상이 반복적으로 발생했습니다. 그래서 한 번에 여러 조건을 바꾸기보다 RF 파워, 압력, 가스 유량을 각각 독립 변수로 설정해 단계적으로 실험했습니다. 또한 모든 실험 데이터를 엑셀과 Python으로 정리해 조건별 수율 변화를 비교 분석했습니다. 그 결과 공정 편차를 줄일 수 있었고, 최종적으로 웨이퍼 불량률을 약 15% 감소시킬 수 있었습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 필살기 1번을 구체적 방법론(독립 변수 설정, 단계적 실험)으로 심화 설명. K질문에 데이터 기반 논리로 대응.</div>
           </div>
+
           <div class="si-qa-item si-highlight-pass">
-            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">우리 회사와 연관이 없어 보여요. 어디에 적용할 수 있을까요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">크리스탈 생성 실험에 직접적인 관련이 없지만, <strong>비스무트 합금 전극을 개발한 경험은 RDL 공정 중 구리를 균일하게 증착하는 부분에 기여할 수 있을 것입니다.</strong> 비스무트 합금 전극 개발 시 첨가물을 활용하여 비스무트를 균일하게 전착하는 데 성공하였고, 삼성전자 내에서는 RDL 공정에서 구리를 균일하게 전착할 때 첨가물을 사용하는 것으로 알고 있습니다. 첨가물에 대한 지식과 전착에 대한 지식을 바탕으로 이 부분에 기여하고 싶습니다.</div></div>
-            <div class="si-reaction">
-              <span class="si-reaction-label">💬 면접관 반응</span>
-              면접관 중 한 분이 다른 면접관께 "신기한게 맞다"고 언급, 나머지 두 면접관도 눈이 빛나는 반응을 보였다.
-            </div>
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">좋은 경험인 것 같은데, 연구실 단위 실험과 실제 삼성전자 양산 공정은 차이가 크다고 생각합니다. 본인의 경험이 실제 현업에서는 어떻게 활용될 수 있을까요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">맞습니다. 연구실 환경과 양산 환경은 규모나 복잡도 측면에서 큰 차이가 있다고 생각합니다. 다만 제가 했던 경험의 핵심은 단순한 실험 자체보다, 공정 변수의 상관관계를 분석하고 최적 조건을 찾아 수율을 개선했던 과정이라고 생각합니다. 실제로 실험 당시에도 작은 조건 차이로 결과가 크게 달라졌기 때문에 데이터를 기반으로 원인을 분석하고 반복 검증하는 데 집중했습니다. 삼성전자 공정기술 직무에서도 공정 조건 최적화와 수율 개선이 중요하다고 알고 있습니다. 그래서 제가 경험했던 데이터 기반 문제 해결 방식이 실제 양산 공정에서도 충분히 기여할 수 있다고 생각합니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> "연구실 vs 양산" 날카로운 질문에 경험의 본질(데이터 기반 문제 해결)로 정면 돌파. 직무 연결성을 구체적으로 연결.</div>
           </div>
+
           <div class="si-qa-item">
-            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">실패했지만 계속 도전해서 성공한 경험이 있나요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">세계 최초로 배가스 실험을 진행했습니다. 전례가 없었기에 참고할 만한 논문이나 조언을 받지 못해 실패를 거듭했지만, 3~4개월간 실험실에서 밤낮없이 실험한 결과 세계에서 최초로 배가스 전기분해에 성공했습니다.</div></div>
-            <div class="si-analysis si-analysis-pass"><span>✓</span> 인성 질문에도 <strong>필살기 2번</strong>으로 답변. 경험의 일관성이 신뢰감을 준다.</div>
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">실패했지만 계속 도전해서 성공한 경험이 있나요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">공정 데이터 자동화 프로젝트를 진행할 때 여러 번 실패를 경험했습니다. 장비마다 데이터 형식이 달라 분석 결과에 계속 오류가 발생했지만, 약 3개월 동안 장비별 로그 구조를 직접 비교하며 Python 전처리 코드를 수정했습니다. 그 결과 데이터 분석 시간을 약 70% 단축했고, 공정 이상 탐지 속도까지 개선할 수 있었습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 인성 질문에도 <strong>필살기 2번</strong>으로 답변. 실패→도전→수치 결과 구조로 경험의 일관성을 유지.</div>
           </div>
+
           <div class="si-qa-item">
-            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그 실험은 어떻게 시작하게 됐나요? 본인이 기획한 실험인가요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">그렇습니다. 저희 고객이었던 협력사에서 현재 사용하는 이산화탄소 전해조가 경제적, 시간적으로 부담이라는 피드백을 주었고, 저는 이를 해결하기 위해 배가스를 직접 전기분해할 수 있지 않을까라는 의견을 교수님께 제안했습니다.</div></div>
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그 프로젝트는 원래 주어진 과제였나요? 아니면 본인이 직접 제안한 건가요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">당시 연구실에서는 공정 데이터를 연구원들이 직접 정리하고 있었는데, 데이터 양이 많아질수록 분석 시간이 오래 걸리고 실수도 반복됐습니다. 저는 이를 보며 자동화가 필요하다고 생각했고, Python 기반 테스트 코드를 직접 제작해 교수님께 제안드렸습니다. 이후 실제 프로젝트로 진행되며 연구실 데이터 분석 효율 개선에 기여할 수 있었습니다.</div></div>
           </div>
+
           <div class="si-qa-item">
-            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">본인의 강점이 있을까요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">실행력이 좋다는 말을 듣는 편입니다. 배가스 실험을 진행할 당시 세계에서 어떤 연구실도 시도하지 않은 실험이었기에, 주변에서 그게 되겠냐는 말을 했지만, 직접 실험해가며 가능성을 증명하고 결국 성공해냈습니다.</div></div>
-            <div class="si-analysis si-analysis-pass"><span>✓</span> 강점 질문에도 필살기 2번 연결. "실행력"이라는 키워드를 구체적 사례로 뒷받침했다.</div>
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">본인의 강점 있을까요? 성격으로 대답해도 좋아요.</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">저의 강점은 실행력이라고 생각합니다. 실제로 공정 데이터 자동화 프로젝트를 진행할 당시 주변에서는 장비별 데이터 형식이 달라 자동화가 어렵다는 의견이 많았습니다. 하지만 저는 직접 Python 기반 테스트 코드를 제작하며 가능성을 검증했고, 약 3개월간 데이터 구조를 분석하며 코드를 개선한 결과 데이터 분석 시간을 약 70% 단축할 수 있었습니다. 저는 아이디어에서 끝나는 것이 아니라 직접 실행하며 결과로 만들어내는 강점이 있습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 강점 질문에도 필살기 2번으로 연결. "실행력"을 구체적 수치(70% 단축)로 뒷받침.</div>
           </div>
+
           <div class="si-qa-item">
-            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">마지막 할 말씀이요?</span></div>
-            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">갤럭시 워치4를 사용한 20명의 고객을 조사해 본 결과, 성능이 올라간 것이 확실히 체감이 된다는 피드백, 화면이 물 흐르듯 넘어간다는 피드백을 받았습니다. 성능이 개선되었으면서도 가성비가 좋은 제품이라는 점에서 만족감을 표현해 주셨습니다. 또한 사용자들이 데이터에 대한 걱정을 생각보다 많이 한다는 것을 깨달았습니다. 제가 희망하는 RDL 공정은 데이터 문제를 해결할 수 있는 공정이라고 알고 있습니다.</div></div>
-            <div class="si-analysis si-analysis-pass"><span>✓</span> 마지막 발언까지 사전 조사(고객 20명 인터뷰)를 기반으로 직무 연결성을 명확히 이어가며 마무리.</div>
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">설득을 어떻게 하는 편이에요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">저는 감정보다는 근거와 데이터를 바탕으로 설득하는 편입니다. 실제로 공정 데이터 자동화 프로젝트를 제안할 당시에도 데이터 오류 사례와 테스트 결과를 직접 보여드리며 필요성을 설명했습니다.</div></div>
           </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그러면 단체 생활할 때 주로 본인이 원하는 대로 되는 편인가요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">그렇지는 않습니다. 저는 제 의견도 중요하지만, 더 합리적인 방향이나 다수의 의견이 있다면 따르는 편입니다. 실제로 설득 과정에서도 제 주장만 고집하기보다 논리적으로 더 타당한 의견이라면 유연하게 받아들이려고 노력합니다.</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그럼 만약 윤리적·사회적 기준에 위배되는 지시를 부서에서 한다면 어떻게 하실래요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">우선은 지시의 배경과 의도를 먼저 이해하려고 할 것 같습니다. 제가 보는 관점보다 현업 경험이 많은 선배나 조직의 판단이 더 정확할 수 있다고 생각하기 때문입니다. 다만 법적·윤리적으로 명확한 문제가 있는 상황이라면 혼자 판단하기보다 상위 리더와 추가적으로 소통하며 조직에 맞는 방향을 찾으려고 노력할 것 같습니다.</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">학점이 상당히 높은데, 이 정도면 반에서 몇 등인가요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">50명 중 수석으로 졸업했습니다.</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">마지막 할 말은요?</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">오늘 면접을 통해 삼성전자 공정기술 직무에 대해 더 깊이 고민해볼 수 있었고, 제가 왜 이 직무를 하고 싶은지 다시 한번 확신할 수 있었습니다. 저는 단순히 주어진 일을 수행하는 사람이 아니라, 데이터를 기반으로 문제를 개선하고 끝까지 해결하는 엔지니어가 되고 싶습니다. 기회를 주신다면 빠르게 배우고 꾸준히 성장하며 팀에 기여하는 구성원이 되겠습니다. 감사합니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 마지막까지 "데이터 기반 문제 해결"이라는 일관된 키워드로 마무리. 직무 정체성을 명확히 각인.</div>
+          </div>
+
         </div>
       </div>
     </div>
