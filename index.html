@@ -314,6 +314,107 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
   .main { padding: 24px 20px 60px; }
   .tab-btn { padding: 14px 12px; font-size: 12px; }
 }
+
+/* ── 삼성 합불 특징 탭 ── */
+.si-section { margin-bottom: 48px; }
+.si-section-title { font-family: 'Noto Serif KR', serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
+.si-section-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+.si-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+@media (max-width: 700px) { .si-compare-grid { grid-template-columns: 1fr; } }
+
+.si-compare-col { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px 26px; box-shadow: var(--shadow); }
+.si-compare-col.si-fail-col { border-top: 3px solid #dc2626; }
+.si-compare-col.si-pass-col { border-top: 3px solid #059669; }
+
+.si-col-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.si-badge { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 4px; letter-spacing: 0.08em; }
+.si-badge-fail { background: rgba(220,38,38,0.08); color: #dc2626; border: 1px solid rgba(220,38,38,0.2); }
+.si-badge-pass { background: rgba(5,150,105,0.08); color: #059669; border: 1px solid rgba(5,150,105,0.2); }
+.si-col-heading { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 700; }
+
+.si-feature-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.si-feature-item { display: flex; gap: 14px; align-items: flex-start; }
+.si-feature-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+.si-feature-icon.si-fail { background: rgba(220,38,38,0.1); color: #dc2626; }
+.si-feature-icon.si-pass { background: rgba(5,150,105,0.1); color: #059669; }
+.si-feature-text { font-size: 13px; color: var(--dim); line-height: 1.7; }
+.si-feature-text strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 3px; font-size: 13.5px; }
+
+.si-cases { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+@media (max-width: 700px) { .si-cases { grid-template-columns: 1fr; } }
+
+.si-case-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.si-case-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.si-case-card.si-fail-card::before { background: linear-gradient(90deg, #dc2626, transparent); }
+.si-case-card.si-pass-card::before { background: linear-gradient(90deg, #059669, transparent); }
+.si-case-company { font-family: 'Noto Serif KR', serif; font-size: 20px; font-weight: 700; margin: 10px 0 4px; }
+.si-case-role { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+
+.si-ratio-section { background: var(--paper); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 18px; }
+.si-ratio-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; }
+.si-ratio-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.si-ratio-key { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); width: 18px; flex-shrink: 0; }
+.si-ratio-track { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.si-ratio-fill { height: 100%; border-radius: 4px; }
+.si-ratio-pct { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); width: 34px; text-align: right; flex-shrink: 0; }
+
+.si-points-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+.si-point-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 12.5px; color: var(--dim); line-height: 1.6; }
+.si-point-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+.si-fail-dot { background: #dc2626; }
+.si-pass-dot { background: #059669; }
+
+.si-htag { display: inline-block; background: rgba(184,134,11,0.1); color: var(--gold); border: 1px solid rgba(184,134,11,0.2); border-radius: 4px; font-size: 11px; padding: 1px 7px; font-family: 'DM Mono', monospace; }
+.si-reaction { margin-top: 14px; padding: 14px 16px; background: rgba(5,150,105,0.06); border: 1px solid rgba(5,150,105,0.18); border-radius: 8px; font-size: 12.5px; color: #059669; line-height: 1.65; }
+.si-reaction-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; display: block; margin-bottom: 5px; }
+
+/* Transcript */
+.si-tab-wrap { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.si-tab-btn { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--white); color: var(--muted); font-family: 'Noto Sans KR', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow); }
+.si-tab-btn:hover { border-color: #c5bdb4; color: var(--dim); }
+.si-tab-btn.active { background: var(--ink); border-color: var(--ink); color: #faf8f4; }
+.si-tab-btn.active .si-badge-fail { background: rgba(255,100,100,0.2); color: #ff8888; border-color: rgba(255,100,100,0.3); }
+.si-tab-btn.active .si-badge-pass { background: rgba(0,220,150,0.2); color: #00dc96; border-color: rgba(0,220,150,0.3); }
+
+.si-transcript-header { display: flex; justify-content: space-between; align-items: center; padding: 22px 28px; border-radius: 12px 12px 0 0; border: 1.5px solid var(--border); border-bottom: none; }
+.si-fail-header { background: rgba(220,38,38,0.05); border-color: rgba(220,38,38,0.2); }
+.si-pass-header { background: rgba(5,150,105,0.05); border-color: rgba(5,150,105,0.2); }
+.si-transcript-co { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+.si-transcript-role { font-size: 12px; color: var(--muted); }
+
+.si-qa-list { border: 1.5px solid var(--border); border-radius: 0 0 12px 12px; overflow: hidden; }
+.si-qa-item { padding: 22px 28px; border-bottom: 1px solid var(--border); }
+.si-qa-item:last-child { border-bottom: none; }
+.si-qa-item:hover { background: rgba(0,0,0,0.015); }
+.si-highlight-fail { background: rgba(220,38,38,0.03) !important; }
+.si-highlight-pass { background: rgba(5,150,105,0.03) !important; }
+
+.si-q-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.si-q-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: var(--muted); background: var(--paper); border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+.si-q-text { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.6; }
+.si-q-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 3px; letter-spacing: 0.04em; }
+.si-m-tag { background: rgba(147,51,234,0.1); color: #7c3aed; border: 1px solid rgba(147,51,234,0.2); }
+.si-k-tag { background: rgba(184,134,11,0.1); color: var(--gold); border: 1px solid rgba(184,134,11,0.2); }
+.si-l-tag { background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.2); }
+.si-e-tag { background: rgba(107,114,128,0.1); color: #6b7280; border: 1px solid rgba(107,114,128,0.2); }
+
+.si-a-row { display: flex; gap: 12px; align-items: flex-start; }
+.si-a-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+.si-a-fail { color: #dc2626; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.2); }
+.si-a-pass { color: #059669; background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.2); }
+.si-a-text { font-size: 13px; color: var(--dim); line-height: 1.8; flex: 1; }
+
+.si-analysis { margin-top: 12px; margin-left: 38px; padding: 10px 14px; border-radius: 7px; font-size: 12.5px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+.si-analysis-fail { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.15); color: #b91c1c; }
+.si-analysis-pass { background: rgba(5,150,105,0.06); border: 1px solid rgba(5,150,105,0.15); color: #047857; }
+
+.si-insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 700px) { .si-insight-grid { grid-template-columns: 1fr; } }
+.si-insight-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px 24px; box-shadow: var(--shadow); }
+.si-insight-num { font-family: 'DM Mono', monospace; font-size: 28px; color: var(--gold); font-weight: 700; margin-bottom: 12px; line-height: 1; }
+.si-insight-title { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+.si-insight-desc { font-size: 12.5px; color: var(--muted); line-height: 1.8; }
 </style>
 </head>
 <body>
@@ -333,6 +434,7 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('overview', this)">전체 개요</button>
   <button class="tab-btn" onclick="switchTab('examples', this)">대표 질문 Top 4</button>
+  <button class="tab-btn" onclick="switchTab('samsung', this)">삼성 면접 합불 특징</button>
   <button class="tab-btn" onclick="switchTab('selfintro', this)">1분 자기소개 큐레이션</button>
 </div>
 
@@ -617,6 +719,302 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
     </div>
   </div>
 
+  <!-- 삼성 면접 합불 특징 -->
+  <div class="tab-content" id="tab-samsung">
+
+    <!-- 비교 섹션 -->
+    <div class="si-section">
+      <div class="si-section-title">합격자와 불합격자의 결정적 차이</div>
+      <div class="si-section-sub">삼성 실제 면접 데이터를 바탕으로 합격을 가른 핵심 요인을 분석했습니다.</div>
+
+      <div class="si-compare-grid">
+        <div class="si-compare-col si-fail-col">
+          <div class="si-col-header">
+            <span class="si-badge si-badge-fail">✕ 불합격</span>
+            <span class="si-col-heading">이런 패턴이 반복됩니다</span>
+          </div>
+          <ul class="si-feature-list">
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-fail">✕</span>
+              <div class="si-feature-text">
+                <strong>1분 자기소개에서 핵심경험(필살기)이 이하게 전달됐다</strong>
+                1분 자기소개에서 핵심 경험을 수치·성과로 명확히 꺼내지 않아, 면접관의 질문이 인성 위주(M질문)로 흘렀다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-fail">✕</span>
+              <div class="si-feature-text">
+                <strong>K질문의 깊이가 없었다</strong>
+                직무 관련 질문에서 구체적인 수치, 과정, 기술적 원리 설명이 부족해 전문성 어필에 실패했다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-fail">✕</span>
+              <div class="si-feature-text">
+                <strong>지원동기가 피상적이었다</strong>
+                "세계 최고 기업", "브랜드 이미지" 수준의 답변으로 회사에 대한 진짜 관심을 보여주지 못했다.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="si-compare-col si-pass-col">
+          <div class="si-col-header">
+            <span class="si-badge si-badge-pass">✓ 합격</span>
+            <span class="si-col-heading">이 전략이 통했다</span>
+          </div>
+          <ul class="si-feature-list">
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-pass">✓</span>
+              <div class="si-feature-text">
+                <strong>1분 자기소개에서 필살기 1·2를 수치와 함께 제시했다</strong>
+                필살기 1·2번을 1분 자기소개에 직접 제시해, 이후 질문이 원하는 방향(K질문)으로 유도됐다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-pass">✓</span>
+              <div class="si-feature-text">
+                <strong>모든 답변이 핵심경험으로 연결됐다</strong>
+                실패 경험, 강점 등 어떤 질문이 나와도 준비한 핵심 경험을 닻으로 삼아 먼저 꺼냈다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-pass">✓</span>
+              <div class="si-feature-text">
+                <strong>직무 연결성을 구체적으로 설명했다</strong>
+                학지의 조사와 사전 연구를 통해 자신의 연구가 실제 직무(RDL 공정)에 어떻게 적용되는지 구체적으로 제시했다.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 케이스 스터디 -->
+    <div class="si-section">
+      <div class="si-section-title">케이스 스터디</div>
+      <div class="si-section-sub">실제 면접 사례 기반 분석입니다.</div>
+
+      <div class="si-cases">
+        <div class="si-case-card si-fail-card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span class="si-badge si-badge-fail">✕ 불합격</span>
+          </div>
+          <div class="si-case-company">삼성바이오로직스</div>
+          <div class="si-case-role">의약품 생산 직무 · 임원 면접</div>
+
+          <div class="si-ratio-section">
+            <div class="si-ratio-label">질문 유형 비중</div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">M</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:73%;background:linear-gradient(90deg,#ef4444,#dc2626);"></div></div>
+              <span class="si-ratio-pct">73%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">K</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:13%;background:var(--gold);"></div></div>
+              <span class="si-ratio-pct">13%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">L</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:7%;background:#9ca3af;"></div></div>
+              <span class="si-ratio-pct">7%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">E</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:7%;background:#9ca3af;"></div></div>
+              <span class="si-ratio-pct">7%</span>
+            </div>
+          </div>
+
+          <div class="si-points-title">불합격 포인트</div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span>1분 자기소개에 필살기를 제시하지 않아 M질문(인성) 중심으로 면접이 흘렀다</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span><span class="si-htag">아르바이트</span> 질문에도 핵심경험과 연결된 답변 없이 단순 경험 나열에 그쳤다</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span><span class="si-htag">지원동기</span> — "5공장 건설, 세계 최대 생산 능력... 그리고... 브랜드 이미지" 수준으로 답변이 흘러졌다</span></div>
+        </div>
+
+        <div class="si-case-card si-pass-card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span class="si-badge si-badge-pass">✓ 합격</span>
+          </div>
+          <div class="si-case-company">삼성전자</div>
+          <div class="si-case-role">패키지 개발 직무 · 임원 면접 (21년 하반기)</div>
+
+          <div class="si-ratio-section">
+            <div class="si-ratio-label">질문 유형 비중</div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">M</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:50%;background:#9ca3af;"></div></div>
+              <span class="si-ratio-pct">50%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">K</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:42%;background:linear-gradient(90deg,#10b981,#059669);"></div></div>
+              <span class="si-ratio-pct">42%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">E</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:8%;background:#9ca3af;"></div></div>
+              <span class="si-ratio-pct">8%</span>
+            </div>
+          </div>
+
+          <div class="si-points-title">합격 포인트</div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>자기소개에서 <span class="si-htag">필살기 1·2번</span> 직접 제시 → 바로 다음 질문이 필살기 1번에 대한 K질문으로 연결됨</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>연구와 직무 연결성 질문에 <span class="si-htag">닻으로</span> RDL 공정 적용 가능성을 먼저 제시</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>실패 경험·강점 질문 모두 <span class="si-htag">필살기 2번</span>(배가스 전기분해)을 기반으로 일관성 있게 답변</span></div>
+          <div class="si-reaction">
+            <span class="si-reaction-label">💬 면접관 반응</span>
+            면접관 중 한 분이 다른 면접관께 "신기한게 맞다"고 언급, 나머지 두 면접관도 눈이 빛나는 반응을 보였다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 실제 면접 전문 -->
+    <div class="si-section">
+      <div class="si-section-title">면접 현장을 그대로 보다</div>
+      <div class="si-section-sub">실제 면접 질문과 답변, AI 분석 코멘트입니다.</div>
+
+      <div class="si-tab-wrap">
+        <button class="si-tab-btn active" onclick="switchTranscriptTab('fail', this)">
+          <span class="si-badge si-badge-fail">✕ 불합격</span>
+          삼성바이오로직스 · 의약품 생산
+        </button>
+        <button class="si-tab-btn" onclick="switchTranscriptTab('pass', this)">
+          <span class="si-badge si-badge-pass">✓ 합격</span>
+          삼성전자 · 패키지 개발
+        </button>
+      </div>
+
+      <!-- 불합격 전문 -->
+      <div id="si-tab-fail">
+        <div class="si-transcript-header si-fail-header">
+          <div>
+            <div class="si-transcript-co">삼성바이오로직스</div>
+            <div class="si-transcript-role">의약품 생산 직무 · 임원 면접</div>
+          </div>
+          <span class="si-badge si-badge-fail">✕ 불합격</span>
+        </div>
+        <div class="si-qa-list">
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">1분 자기소개 해주세요</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">멈추지 않는 의지처럼, 끊임없이 도전하는 지원자 [이름]입니다. 저는 복잡한 데이터 속에서 해답을 찾아내는 추진력과 이를 끝까지 완수하는 개인 체력이 강점입니다. 석사 시절, 항체 조각의 안정성 문제를 해결하기 위해 수백 번의 조건 변화를 주저 없이 실시하며 최적의 결괏값을 도출해낸 경험이 있습니다. 바이오 의약품 생산 현장은 매 순간이 골든 타임입니다. 저의 빠른 실행력과 탄탄한 기초 지식을 결합해, 삼성바이오로직스가 추구하는 '이격차 서비스' 경쟁력에 실질적인 기여를 하겠습니다.</div></div>
+            <div class="si-analysis si-analysis-fail"><span>⚠</span> 핵심경험을 수치·성과로 명확히 제시하지 않아 면접관의 다음 질문이 인성(M) 방향으로 흘렀다.</div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">자기소개가 식상한 편인데, 어떻게 개인화 체력을 취미로 기르셨나요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">저는 지난 2년간 주 4회, 퇴근 후(특히 새벽) 꾸준히 웨이트 트레이닝을 통해 현재는 3대 운동(스쿼트, 데드리프트, 벤치프레스) 합계 350kg을 달성할 만큼의 체력을 갖추었습니다.</div></div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">영어 공부는 어떻게 하나요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">영어 학습 하이어마싱을 통해 매일 영어로 대화하면서 영어실력을 쌓았습니다.</div></div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">존경하는 인물은 [멈춤]으로 하셨는데, 누구죠?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">저희 지도 교수님이십니다.</div></div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그럼 이것을 영어로 설명해보세요</span><span class="si-q-tag si-l-tag">L질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">My role model is my advisor, Professor [Name], whose unwavering trust and empowering leadership deeply inspired me. By consistently engaging in passionate discussions and encouraging me with 'You can do it,' he gave me the confidence to successfully lead my first experiments from the ground up.</div></div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">갈등한 경험이 있으면 관련해서 말해주세요</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">학부 시절, 공용 소모품 및 샘플링의 무분별한 사용으로 인해 연구를 진행할 때 시료가 부족해 실험이 지연되는 갈등이 있었습니다. 저는 구성원들에게 따끔하기보다, 누구나 쉽게 사용할 수 있도록 재고 관리 시트를 제안해 실험실 서랍에 부착하고 직접 주가 단위 점검을 통해 이를 해결했습니다.</div></div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">석사 과정 중 사용하신 가용성 향상 태그(Solubility Tag)의 원리와 특징에 대해 설명해 주시겠습니까?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">제가 사용한 태그는 ELP 기반의 플랫폼으로, 특정 아미노산의 특성을 이용해 유전 공학적 반발력을 일으켜 단백질의 응집을 막아주는 원리입니다.</div></div>
+            <div class="si-analysis si-analysis-fail"><span>⚠</span> 원리 설명에서 수치·데이터가 없고 답변이 짧게 마무리됐다.</div>
+          </div>
+          <div class="si-qa-item si-highlight-fail">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">왜 삼성바이오로직스인가요?</span><span class="si-q-tag si-e-tag">E질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">네, 제가 삼성바이오로직스에 지원한 이유는 세계 최고의 생산 규모를 갖춘 글로벌 CDMO 기업이기 때문입니다. 현재 1, 2, 3, 4공장에 이어 5공장까지 건설하며 단일 기업 기준 세계 최대의 생산 능력을 보유하고 있다고 알고 있습니다. <em style="background:rgba(220,38,38,0.08);color:#dc2626;border-radius:4px;padding:1px 6px;font-style:italic;">(잠시 얼버무리며)</em> 이... 그리고... 글로벌 시장 점유율도 높고, 삼성이라는 브랜드 이미지가 주는 신뢰감이 크기 때문에 이곳에서 제 역량을 펼치고 싶어 지원하게 되었습니다.</div></div>
+            <div class="si-analysis si-analysis-fail"><span>⚠</span> "브랜드 이미지" 수준으로 답변이 흘러져 지원동기의 깊이가 드러나지 않았다. 핵심 불합격 포인트.</div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">마지막으로 하고 싶은 말이 있으면 해보세요</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">저의 개인화 체력을 바탕으로 삼성바이오로직스에 기여하겠습니다. 감사합니다.</div></div>
+            <div class="si-analysis si-analysis-fail"><span>⚠</span> 마지막 기회에도 핵심경험(연구 성과)으로 마무리하지 못하고 체력 언급으로 끝났다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 합격 전문 -->
+      <div id="si-tab-pass" style="display:none;">
+        <div class="si-transcript-header si-pass-header">
+          <div>
+            <div class="si-transcript-co">삼성전자</div>
+            <div class="si-transcript-role">패키지 개발 직무 · 임원 면접 (21년 하반기)</div>
+          </div>
+          <span class="si-badge si-badge-pass">✓ 합격</span>
+        </div>
+        <div class="si-qa-list">
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">1분 자기소개 해주세요</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">안녕하십니까? 패키지 개발 직무에 지원한 [이름]입니다.<br><br><strong style="color:#059669;">[필살기 1]</strong> 비스무트와 균일한 전착을 통해 크리스탈 생성 효율 80% 달성에 성공한 경험이 있습니다. 분산성을 주의하여 비스무트와 균일한 전착에 성공시켰고, 그 결과 크리스탈 생성 효율 20%p 향상에 성공했습니다.<br><br><strong style="color:#059669;">[필살기 2]</strong> 또한 세계 최초로 배가스를 직접 전기분해한 경험이 있습니다. 가스 전극을 기존 5배 향상시키며 크리스탈 생성 효율 2배 향상에 성공하고, 이를 통해 배가스 직접 전기분해에 성공했습니다.<br><br>이런 전기화학적인 지식을 기반으로 RDL 공정 중 구리의 균일한 증착에 기여하고 싶습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 수치(80%, 20%p, 5배, 2배)와 함께 필살기 2개를 명확히 제시 → 다음 질문이 바로 K질문으로 연결됨.</div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">크리스탈이 인체에 위해한 거잖아요? safety 관리는 어떻게 하셨어요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">후드 안에서만 실험을 진행하고, 마스크와 장갑을 끼며 크리스탈이 뿌려지지 않게 조심했습니다.</div></div>
+          </div>
+          <div class="si-qa-item si-highlight-pass">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">우리 회사와 연관이 없어 보여요. 어디에 적용할 수 있을까요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">크리스탈 생성 실험에 직접적인 관련이 없지만, <strong>비스무트 합금 전극을 개발한 경험은 RDL 공정 중 구리를 균일하게 증착하는 부분에 기여할 수 있을 것입니다.</strong> 비스무트 합금 전극 개발 시 첨가물을 활용하여 비스무트를 균일하게 전착하는 데 성공하였고, 삼성전자 내에서는 RDL 공정에서 구리를 균일하게 전착할 때 첨가물을 사용하는 것으로 알고 있습니다. 첨가물에 대한 지식과 전착에 대한 지식을 바탕으로 이 부분에 기여하고 싶습니다.</div></div>
+            <div class="si-reaction">
+              <span class="si-reaction-label">💬 면접관 반응</span>
+              면접관 중 한 분이 다른 면접관께 "신기한게 맞다"고 언급, 나머지 두 면접관도 눈이 빛나는 반응을 보였다.
+            </div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">실패했지만 계속 도전해서 성공한 경험이 있나요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">세계 최초로 배가스 실험을 진행했습니다. 전례가 없었기에 참고할 만한 논문이나 조언을 받지 못해 실패를 거듭했지만, 3~4개월간 실험실에서 밤낮없이 실험한 결과 세계에서 최초로 배가스 전기분해에 성공했습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 인성 질문에도 <strong>필살기 2번</strong>으로 답변. 경험의 일관성이 신뢰감을 준다.</div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그 실험은 어떻게 시작하게 됐나요? 본인이 기획한 실험인가요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">그렇습니다. 저희 고객이었던 협력사에서 현재 사용하는 이산화탄소 전해조가 경제적, 시간적으로 부담이라는 피드백을 주었고, 저는 이를 해결하기 위해 배가스를 직접 전기분해할 수 있지 않을까라는 의견을 교수님께 제안했습니다.</div></div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">본인의 강점이 있을까요?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">실행력이 좋다는 말을 듣는 편입니다. 배가스 실험을 진행할 당시 세계에서 어떤 연구실도 시도하지 않은 실험이었기에, 주변에서 그게 되겠냐는 말을 했지만, 직접 실험해가며 가능성을 증명하고 결국 성공해냈습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 강점 질문에도 필살기 2번 연결. "실행력"이라는 키워드를 구체적 사례로 뒷받침했다.</div>
+          </div>
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">마지막 할 말씀이요?</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">갤럭시 워치4를 사용한 20명의 고객을 조사해 본 결과, 성능이 올라간 것이 확실히 체감이 된다는 피드백, 화면이 물 흐르듯 넘어간다는 피드백을 받았습니다. 성능이 개선되었으면서도 가성비가 좋은 제품이라는 점에서 만족감을 표현해 주셨습니다. 또한 사용자들이 데이터에 대한 걱정을 생각보다 많이 한다는 것을 깨달았습니다. 제가 희망하는 RDL 공정은 데이터 문제를 해결할 수 있는 공정이라고 알고 있습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 마지막 발언까지 사전 조사(고객 20명 인터뷰)를 기반으로 직무 연결성을 명확히 이어가며 마무리.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 핵심 인사이트 -->
+    <div class="si-section">
+      <div class="si-section-title">면접의 흐름을 내가 만들어라</div>
+      <div class="si-section-sub">합격자의 전략에서 배운 3가지 핵심 인사이트입니다.</div>
+      <div class="si-insight-grid">
+        <div class="si-insight-card">
+          <div class="si-insight-num">01</div>
+          <div class="si-insight-title">필살기를 먼저 꺼내라</div>
+          <div class="si-insight-desc">1분 자기소개는 당신이 유일하게 질문 없이 말할 수 있는 시간. 핵심 경험 2개를 먼저 제시해 이후 질문의 방향을 설계하라.</div>
+        </div>
+        <div class="si-insight-card">
+          <div class="si-insight-num">02</div>
+          <div class="si-insight-title">어떤 질문도 같은 답으로</div>
+          <div class="si-insight-desc">강점, 실패, 갈등 — 모든 인성 질문의 답은 결국 핵심경험으로 귀결돼야 한다. 경험의 일관성이 신뢰를 만든다.</div>
+        </div>
+        <div class="si-insight-card">
+          <div class="si-insight-num">03</div>
+          <div class="si-insight-title">직무 연결성을 구체적으로</div>
+          <div class="si-insight-desc">나의 연구가 실제 공정에 어느 부분에 적용되는지 사전 조사로 파악하라. 피상적인 지원동기는 가장 쉽게 탈락한다.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- 1분 자기소개 큐레이션 -->
   <div class="tab-content" id="tab-selfintro">
     <div class="selfintro-wrap">
@@ -799,6 +1197,13 @@ function switchTab(id, btn) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-' + id).classList.add('active');
+}
+
+function switchTranscriptTab(type, btn) {
+  document.getElementById('si-tab-fail').style.display = type === 'fail' ? 'block' : 'none';
+  document.getElementById('si-tab-pass').style.display = type === 'pass' ? 'block' : 'none';
+  document.querySelectorAll('.si-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 const pieCtx = document.getElementById('pieChart').getContext('2d');
