@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1분 자기소개, 당신은 몇 점짜리입니까? | 면접 메이트</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+  :root {
+    --ink: #1a1612;
+    --paper: #faf8f4;
+    --red: #c0392b;
+    --red-pale: #fdf0ef;
+    --gold: #b8860b;
+    --gold-pale: #fdf8e1;
+    --border: #d6cfc5;
+    --muted: #7a7065;
+    --accent-blue: #1a3a5c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 16px;
+  }
+
+  /* Header */
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.025) 30px,
+      rgba(255,255,255,0.025) 31px
+    );
+  }
+  .header-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #c0a060;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+  .header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.35;
+    margin-bottom: 1rem;
+  }
+  .header h1 span {
+    color: #e8a040;
+  }
+  .header-sub {
+    font-size: 0.95rem;
+    color: #b0a898;
+    max-width: 520px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+  .header-grade-badge {
+    display: inline-block;
+    margin-top: 2rem;
+    background: var(--red);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 0.4rem 1.2rem;
+    border-radius: 2px;
+  }
+
+  /* Article body */
+  .article {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .intro-block {
+    border-left: 4px solid var(--gold);
+    padding: 1.4rem 1.6rem;
+    background: var(--gold-pale);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 3rem;
+    font-size: 1.05rem;
+    color: #3a3020;
+    line-height: 1.9;
+  }
+  .intro-block strong {
+    color: var(--gold);
+  }
+
+  /* Section heading */
+  h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin: 3.5rem 0 1.4rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--ink);
+    color: var(--ink);
+  }
+  h3 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 2rem 0 0.8rem;
+    color: var(--accent-blue);
+  }
+
+  p {
+    margin-bottom: 1.1rem;
+    color: #2c2520;
+  }
+
+  /* Case card */
+  .case-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 2.5rem 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .case-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .case-number {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .case-title-wrap {}
+  .case-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #c0a060;
+    font-weight: 500;
+  }
+  .case-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .case-body {
+    padding: 1.5rem;
+    background: white;
+  }
+
+  /* Answer example box */
+  .answer-box {
+    background: #f5f3ef;
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.92rem;
+    color: #4a4035;
+    border-left: 3px solid #bbb;
+    font-style: italic;
+    line-height: 1.9;
+  }
+  .answer-box-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    font-style: normal;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Feedback block */
+  .feedback-block {
+    background: var(--red-pale);
+    border: 1.5px solid #e8c4c0;
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .feedback-block-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.9rem;
+  }
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .score-big {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--red);
+    line-height: 1;
+  }
+  .grade-badge {
+    background: var(--red);
+    color: white;
+    font-weight: 900;
+    font-size: 1.4rem;
+    width: 42px; height: 42px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .score-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    border: 2px solid var(--gold);
+    background: var(--gold-pale);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .highlight-box-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .highlight-item {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.93rem;
+    color: #3a2e10;
+    align-items: flex-start;
+  }
+  .highlight-item::before {
+    content: '✦';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    font-size: 0.7rem;
+  }
+  .highlight-em {
+    font-weight: 700;
+    background: linear-gradient(0deg, #ffe082 40%, transparent 40%);
+    padding: 0 2px;
+  }
+
+  /* Diagnosis tag strip */
+  .tag-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.6rem 0;
+  }
+  .tag {
+    padding: 0.25rem 0.7rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .tag-d { background: #fde8e8; color: var(--red); border: 1px solid #f5bbb8; }
+  .tag-c { background: #fff3d6; color: #8a6000; border: 1px solid #f0d080; }
+
+  /* Problem type banner */
+  .problem-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: #f0eee8;
+    border-radius: 6px;
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .problem-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .problem-text {
+    font-size: 0.9rem;
+    color: #4a4035;
+  }
+  .problem-text strong {
+    color: var(--ink);
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* CTA */
+  .cta-section {
+    margin-top: 4rem;
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.02) 20px,
+      rgba(255,255,255,0.02) 21px
+    );
+  }
+  .cta-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #c0a060;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .cta-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
+  }
+  .cta-title span {
+    color: #e8a040;
+  }
+  .cta-desc {
+    font-size: 0.95rem;
+    color: #b0a898;
+    max-width: 440px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 1rem 2.6rem;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+    transition: background 0.2s, transform 0.15s;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-btn:hover {
+    background: #a93226;
+    transform: translateY(-2px);
+  }
+  .cta-small {
+    font-size: 0.78rem;
+    color: #7a7065;
+    margin-top: 1rem;
+    position: relative; z-index: 1;
+  }
+
+  /* Summary box */
+  .summary-box {
+    background: #f0f4f9;
+    border: 1.5px solid #c0cdd8;
+    border-radius: 8px;
+    padding: 1.5rem 1.8rem;
+    margin: 2.5rem 0;
+  }
+  .summary-box h3 {
+    color: var(--accent-blue);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .summary-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+    align-items: flex-start;
+  }
+  .summary-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    background: var(--accent-blue);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 0.1rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-label">면접 메이트 실전 분석 리포트</div>
+  <h1>"1분 자기소개,<br><span>당신은 몇 점짜리입니까?</span>"</h1>
+  <p class="header-sub">AI가 실제로 F등급을 준 답변 3가지 유형을 분석했습니다.<br>당신의 답변은 어느 유형에 속하나요?</p>
+  <div class="header-grade-badge">F등급 공개 분석</div>
+</header>
+
+<article class="article">
+
+  <div class="intro-block">
+    면접 준비를 할 때 1분 자기소개를 가볍게 생각하는 분들이 많습니다. <strong>"그냥 짧게 소개하면 되는 거 아닌가요?"</strong> — 아닙니다. 면접 메이트의 AI가 분석한 실제 데이터를 보면, 1분 자기소개에서 F등급을 받는 패턴은 생각보다 뚜렷하고 반복됩니다. 오늘은 그 대표적인 3가지 유형을 실전 사례 기반으로 해부합니다.
+  </div>
+
+  <h2>F등급을 만드는 3가지 패턴</h2>
+
+  <p>면접 메이트 AI는 1분 자기소개를 <strong>직무유사성 / 성과지표 / 간결성 / 일관성 / 적합성</strong>, 총 5개 항목으로 평가합니다. F등급 답변들을 분석하면 아래 3가지 실패 유형으로 수렴됩니다.</p>
+
+  <!-- CASE 1 -->
+  <div class="case-card">
+    <div class="case-header">
+      <div class="case-number">1</div>
+      <div class="case-title-wrap">
+        <div class="case-tag">유형 A · Pattern of Failure</div>
+        <div class="case-title">단답형 — 핵심 없이 너무 짧게 말하는 경우</div>
+      </div>
+    </div>
+    <div class="case-body">
+
+      <div class="problem-banner">
+        <span class="problem-icon">📋</span>
+        <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 긴장하면 말이 짧아지는 분, 준비는 했는데 막상 입 밖으로 나오면 반 토막이 되는 분</span>
+      </div>
+
+      <div class="answer-box">
+        <div class="answer-box-label">유형 A 실제 사례 (재구성)</div>
+        "안녕하십니까. 저는 데이터 속에 숨어 있는 고객 니즈와 서비스 흐름을 파악하고 전략을 수립하는 데 깊은 관심을 가져 이 직무에 지원하게 되었습니다."
+      </div>
+
+      <div class="feedback-block">
+        <div class="feedback-block-label">
+          <span>🤖</span> AI 피드백 요약
+        </div>
+        <div class="score-row">
+          <div class="score-big">45점</div>
+          <div class="grade-badge">F</div>
+          <div class="score-desc">
+            전체 5개 항목<br>전부 D등급
+          </div>
+        </div>
+        <div class="tag-strip">
+          <span class="tag tag-d">직무유사성 D</span>
+          <span class="tag tag-d">성과지표 D</span>
+          <span class="tag tag-d">간결성 D</span>
+          <span class="tag tag-d">일관성 D</span>
+          <span class="tag tag-d">적합성 D</span>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="highlight-box-label">
+          <span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다
+        </div>
+        <div class="highlight-item">
+          <span><span class="highlight-em">내용이 너무 짧습니다.</span> 지원 직무와 연결되는 구체적인 경험이 전혀 없어, 역량이나 강점을 파악할 수 없는 수준입니다.</span>
+        </div>
+        <div class="highlight-item">
+          <span>관심이 생긴 이유는 알겠지만, <span class="highlight-em">"왜 나인가"에 대한 답</span>이 없습니다. 지원 동기만 있고 자기소개는 없는 셈입니다.</span>
+        </div>
+        <div class="highlight-item">
+          <span>다시 준비할 포인트: <span class="highlight-em">첫 문장을 결론으로</span> 시작하고(직무 + 나의 강점 한 줄), 대표 경험 1개를 <strong>문제→행동→결과</strong> 3문장으로 붙이고, 입사 후 기여점으로 닫아야 합니다.</span>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem; color:var(--muted); margin-top:1rem;">
+        💡 <em>읽고 나서 느껴지시나요? 지금 본인의 1분 자기소개를 그대로 면접 메이트에 입력하면, 어떤 피드백이 나올지 궁금하지 않으신가요?</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- CASE 2 -->
+  <div class="case-card">
+    <div class="case-header">
+      <div class="case-number">2</div>
+      <div class="case-title-wrap">
+        <div class="case-tag">유형 B · Pattern of Failure</div>
+        <div class="case-title">필살기 부재 — HOW+Result를 제대로 전달하지 못한 경우</div>
+      </div>
+    </div>
+    <div class="case-body">
+
+      <div class="problem-banner">
+        <span class="problem-icon">💬</span>
+        <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 경험이 있긴 한데 말로 정리가 안 되는 분, 이야기는 길어지는데 무슨 말인지 모르겠다는 피드백을 받은 분</span>
+      </div>
+
+      <div class="answer-box">
+        <div class="answer-box-label">유형 B 실제 사례 (재구성)</div>
+        "안녕하십니까, 이번 공채 마케팅 직무에 지원하게 된 지원자입니다. 저는 2022년부터 다양한 대외활동을 해왔는데요, 처음에는 식품 관련 콘텐츠 블로그를 시작하면서 이 분야에 관심이 생겼고, 거기서 더 하고 싶은 게 생겨서 전문적인 활동을 두 가지 정도 이어가게 되었습니다. 그런 경험들이 쌓이면서 마케팅을 꿈꾸게 되었습니다."
+      </div>
+
+      <div class="feedback-block">
+        <div class="feedback-block-label">
+          <span>🤖</span> AI 피드백 요약
+        </div>
+        <div class="score-row">
+          <div class="score-big">45점</div>
+          <div class="grade-badge">F</div>
+          <div class="score-desc">
+            전체 5개 항목<br>전부 D등급
+          </div>
+        </div>
+        <div class="tag-strip">
+          <span class="tag tag-d">직무유사성 D</span>
+          <span class="tag tag-d">성과지표 D</span>
+          <span class="tag tag-d">간결성 D</span>
+          <span class="tag tag-d">일관성 D</span>
+          <span class="tag tag-d">적합성 D</span>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="highlight-box-label">
+          <span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다
+        </div>
+        <div class="highlight-item">
+          <span>블로그 운영이라는 소재는 있지만, <span class="highlight-em">실제로 무엇을 했는지 역할이 보이지 않습니다.</span> "콘텐츠 기획, 키워드 선정, 성과 분석, 협업" 중 어느 것을 했나요? 그게 필살기입니다.</span>
+        </div>
+        <div class="highlight-item">
+          <span><span class="highlight-em">결과 지표 한 줄이 없습니다.</span> 방문자 수, 조회수, 검색 노출, 전환 유도 등 — 숫자 하나가 신뢰도를 완전히 바꿉니다.</span>
+        </div>
+        <div class="highlight-item">
+          <span>다시 준비할 포인트: <span class="highlight-em">경험 1~2개만 골라 "행동 → 결과"로 압축</span>하고, 마지막 한 문장은 반드시 입사 후 기여점으로 닫아야 합니다.</span>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem; color:var(--muted); margin-top:1rem;">
+        💡 <em>경험이 없어서 F가 아닙니다. 경험을 어떻게 말하느냐의 문제입니다. 지금 당신의 답변에서 HOW와 Result가 명확히 보이나요?</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- CASE 3 -->
+  <div class="case-card">
+    <div class="case-header">
+      <div class="case-number">3</div>
+      <div class="case-title-wrap">
+        <div class="case-tag">유형 C · Pattern of Failure</div>
+        <div class="case-title">숫자만 던지기 — Result만 있고 HOW가 없는 경우</div>
+      </div>
+    </div>
+    <div class="case-body">
+
+      <div class="problem-banner">
+        <span class="problem-icon">📊</span>
+        <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 자소서에 성과 수치를 썼으니 1분 자기소개도 비슷하게 말하면 된다고 생각한 분, 스펙은 좋은데 면접에서 약하다는 이야기를 들은 분</span>
+      </div>
+
+      <div class="answer-box">
+        <div class="answer-box-label">유형 C 실제 사례 (재구성)</div>
+        "안녕하십니까. 저는 이번 경영지원 직무에 지원하게 된 지원자입니다. 저는 A사 인턴 시절 신규 프로그램을 기획하여 기존 25% 수준이던 지표를 28%로 개선한 경험이 있습니다. 또한 B사에서 오류 점검 시트를 제작하여 약 300건의 오류를 사전에 예방한 바 있습니다. 이러한 경험을 바탕으로 귀사의 경영지원 직무에 기여하고 싶어 지원하게 되었습니다."
+      </div>
+
+      <div class="feedback-block">
+        <div class="feedback-block-label">
+          <span>🤖</span> AI 피드백 요약
+        </div>
+        <div class="score-row">
+          <div class="score-big">43점</div>
+          <div class="grade-badge">F</div>
+          <div class="score-desc">
+            일부 항목 C,<br>전체는 F등급
+          </div>
+        </div>
+        <div class="tag-strip">
+          <span class="tag tag-c">직무유사성 C</span>
+          <span class="tag tag-c">성과지표 C</span>
+          <span class="tag tag-d">간결성 D</span>
+          <span class="tag tag-d">일관성 D</span>
+          <span class="tag tag-d">적합성 D</span>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="highlight-box-label">
+          <span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다
+        </div>
+        <div class="highlight-item">
+          <span>수치를 언급한 점은 좋았습니다. 하지만 <span class="highlight-em">제시한 수치에 대한 구체적인 HOW가 없습니다.</span> "어떻게 25%를 28%로 올렸는지", "300건을 어떤 방법으로 막았는지"가 빠지면 면접관은 그 수치를 신뢰하지 않습니다.</span>
+        </div>
+        <div class="highlight-item">
+          <span>숫자는 결론입니다. 결론만 말하고 과정을 빼면 <span class="highlight-em">설득력이 아니라 의심만 생깁니다.</span></span>
+        </div>
+        <div class="highlight-item">
+          <span>다시 준비할 포인트: 경험 2개 중 더 강한 것 1개를 골라 <span class="highlight-em">"무엇을 바꿨고 → 결과가 어떻게 달라졌는지"</span> HOW+Result 쌍으로 재구성하세요.</span>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem; color:var(--muted); margin-top:1rem;">
+        💡 <em>수치가 있어도 F가 나옵니다. "어떻게"가 없는 숫자는 반쪽짜리입니다. 지금 당신의 성과 뒤에 HOW가 붙어 있나요?</em>
+      </p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h2>그래서, 1분 자기소개의 공식은?</h2>
+
+  <p>세 유형을 관통하는 공통점은 하나입니다. <strong>나의 "필살기"를 HOW + Result로 전달하지 못했다</strong>는 것입니다. 좋은 1분 자기소개의 구조는 단순합니다.</p>
+
+  <div class="summary-box">
+    <h3>✅ 1분 자기소개 황금 구조</h3>
+    <div class="summary-row">
+      <div class="summary-num">1</div>
+      <span><strong>첫 문장은 결론:</strong> "저는 [필살기 한 줄]로 [성과]를 만든 [직무명] 지원자입니다"</span>
+    </div>
+    <div class="summary-row">
+      <div class="summary-num">2</div>
+      <span><strong>경험 1~2개, 행동→결과로 압축:</strong> 무엇을 어떻게 했고, 수치로 어떻게 달라졌는지</span>
+    </div>
+    <div class="summary-row">
+      <div class="summary-num">3</div>
+      <span><strong>마무리는 기여점으로:</strong> 입사 후 구체적으로 무엇을 어떻게 기여할지 한 문장</span>
+    </div>
+  </div>
+
+  <p>위 3가지 요소를 갖추면 AI 평가는 물론, 실제 면접관의 눈길도 달라집니다. 그리고 이 구조가 제대로 작동하는지 확인하는 가장 빠른 방법이 있습니다.</p>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-label">지금 바로 확인하세요</div>
+    <div class="cta-title">당신의 1분 자기소개,<br><span>지금 몇 점인지 알고 싶지 않으신가요?</span></div>
+    <p class="cta-desc">면접 메이트에 답변을 입력하면, AI가 5개 항목별 점수와 등급, 그리고 구체적인 개선 가이드를 즉시 제공합니다. 위에서 본 F등급 피드백처럼요.</p>
+    <a href="https://nextleveltransform.com/interview_pay" class="cta-btn" target="_blank">면접 메이트에서 내 답변 진단받기 →</a>
+    <p class="cta-small">오늘 F등급을 받더라도 괜찮습니다. 중요한 건 면접 당일 전에 아는 것입니다.</p>
+  </div>
+
+</article>
+
+</body>
+</html>
