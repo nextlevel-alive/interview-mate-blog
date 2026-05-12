@@ -3,678 +3,831 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1분 자기소개, 당신은 몇 점짜리입니까? | 면접 메이트</title>
+<title>삼성전자 면접 KML 분석 | 면접 메이트</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+:root {
+  --paper: #faf8f4;
+  --white: #ffffff;
+  --ink: #1a1612;
+  --border: #e5e0d8;
+  --muted: #7a7065;
+  --dim: #4a4035;
+  --K: #2563eb;
+  --M: #9333ea;
+  --L: #059669;
+  --E: #6b7280;
+  --one: #d97706;
+  --red: #c0392b;
+  --red-pale: #fdf0ef;
+  --gold: #b8860b;
+  --gold-pale: #fdf8e1;
+  --accent-blue: #1a3a5c;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.7;
+  font-size: 15px;
+}
 
-  :root {
-    --ink: #1a1612;
-    --brand-blue: #5462D6;
-    --paper: #faf8f4;
-    --red: #c0392b;
-    --red-pale: #fdf0ef;
-    --gold: #b8860b;
-    --gold-pale: #fdf8e1;
-    --border: #d6cfc5;
-    --muted: #7a7065;
-    --accent-blue: #1a3a5c;
-  }
+.header {
+  background: var(--ink);
+  color: #faf8f4;
+  padding: 40px 40px 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.header-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #c0a060;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.header-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: #faf8f4;
+}
+.header-title span { color: #60a5fa; }
+.header-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #7a7065;
+  text-align: right;
+  line-height: 2;
+}
+.header-meta strong { color: #b0a898; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+.tabs {
+  display: flex;
+  padding: 0 40px;
+  background: #ffffff;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.tab-btn {
+  padding: 16px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 700; }
+.tab-btn:hover:not(.active) { color: var(--dim); }
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.85;
-    font-size: 16px;
-  }
+.main { max-width: 1000px; margin: 0 auto; padding: 36px 40px 80px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-  /* Header */
-  .header {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 3.5rem 2rem 3rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 30px,
-      rgba(255,255,255,0.025) 30px,
-      rgba(255,255,255,0.025) 31px
-    );
-  }
-  .header-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: #c0a060;
-    margin-bottom: 1.2rem;
-    font-weight: 500;
-  }
-  .header h1 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 900;
-    line-height: 1.35;
-    margin-bottom: 1rem;
-  }
-  .header h1 span {
-    color: #e8a040;
-  }
-  .header-sub {
-    font-size: 0.95rem;
-    color: #b0a898;
-    max-width: 520px;
-    margin: 0 auto;
-    font-weight: 300;
-  }
-  .header-grade-badge {
-    display: inline-block;
-    margin-top: 2rem;
-    background: var(--red);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    padding: 0.4rem 1.2rem;
-    border-radius: 2px;
-  }
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
 
-  /* Article body */
-  .article {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
-  }
+/* KPI */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+@media (max-width: 700px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+.kpi {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.kpi-K::before { background: var(--K); }
+.kpi-M::before { background: var(--M); }
+.kpi-L::before { background: var(--L); }
+.kpi-E::before { background: var(--E); }
+.kpi-1::before { background: var(--one); }
+.kpi-key { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; margin-bottom: 10px; }
+.kpi-K .kpi-key { color: var(--K); }
+.kpi-M .kpi-key { color: var(--M); }
+.kpi-L .kpi-key { color: var(--L); }
+.kpi-E .kpi-key { color: var(--E); }
+.kpi-1 .kpi-key { color: var(--one); }
+.kpi-num { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
+.kpi-K .kpi-num { color: var(--K); }
+.kpi-M .kpi-num { color: var(--M); }
+.kpi-L .kpi-num { color: var(--L); }
+.kpi-E .kpi-num { color: var(--E); }
+.kpi-1 .kpi-num { color: var(--one); }
+.kpi-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.kpi-label { font-size: 11px; color: var(--muted); margin-top: 6px; }
 
-  .intro-block {
-    border-left: 4px solid var(--gold);
-    padding: 1.4rem 1.6rem;
-    background: var(--gold-pale);
-    border-radius: 0 6px 6px 0;
-    margin-bottom: 3rem;
-    font-size: 1.05rem;
-    color: #3a3020;
-    line-height: 1.9;
-  }
-  .intro-block strong {
-    color: var(--gold);
-  }
+/* STACKED BAR */
+.stacked-wrap {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+.stacked-bar { display: flex; height: 32px; border-radius: 8px; overflow: hidden; gap: 2px; margin-bottom: 14px; }
+.seg {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  color: rgba(255,255,255,0.9); overflow: hidden; white-space: nowrap;
+}
+.legend-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.leg-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--dim); }
+.leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-  /* Section heading */
-  h2 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.55rem;
-    font-weight: 700;
-    margin: 3.5rem 0 1.4rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid var(--ink);
-    color: var(--ink);
-  }
-  h3 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin: 2rem 0 0.8rem;
-    color: var(--accent-blue);
-  }
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+@media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+.card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px 24px; box-shadow: var(--shadow); }
+.card-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
 
-  p {
-    margin-bottom: 1.1rem;
-    color: #2c2520;
-  }
+/* HBAR */
+.hbar-list { display: flex; flex-direction: column; gap: 14px; }
+.hbar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+.hbar-label { font-size: 13px; color: var(--dim); font-weight: 500; }
+.hbar-val { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.hbar-track { background: #f0ebe4; border-radius: 100px; height: 7px; }
+.hbar-fill { height: 7px; border-radius: 100px; }
 
-  /* Case card */
-  .case-card {
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 2.5rem 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  .case-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.1rem 1.5rem;
-    background: var(--brand-blue);
-    color: var(--paper);
-  }
-  .case-number {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: var(--red);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900;
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-  .case-title-wrap {}
-  .case-tag {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #c0a060;
-    font-weight: 500;
-  }
-  .case-title {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-  .case-body {
-    padding: 1.5rem;
-    background: white;
-  }
+.insight { margin-top: 20px; padding: 14px 16px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; }
+.insight-title { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--K); letter-spacing: 0.15em; margin-bottom: 5px; text-transform: uppercase; }
+.insight p { font-size: 13px; color: #1d4ed8; line-height: 1.7; }
 
-  /* Answer example box */
-  .answer-box {
-    background: #f5f3ef;
-    border-radius: 6px;
-    padding: 1.2rem 1.4rem;
-    margin: 1rem 0 1.5rem;
-    font-size: 0.92rem;
-    color: #4a4035;
-    border-left: 3px solid #bbb;
-    font-style: italic;
-    line-height: 1.9;
-  }
-  .answer-box-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 700;
-    font-style: normal;
-    margin-bottom: 0.5rem;
-  }
+.chart-wrap { position: relative; height: 240px; }
 
-  /* Feedback block */
-  .feedback-block {
-    background: var(--red-pale);
-    border: 1.5px solid #e8c4c0;
-    border-radius: 8px;
-    padding: 1.3rem 1.5rem;
-    margin: 1.2rem 0;
-  }
-  .feedback-block-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 0.9rem;
-  }
-  .score-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-  .score-big {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: var(--red);
-    line-height: 1;
-  }
-  .grade-badge {
-    background: var(--red);
-    color: white;
-    font-weight: 900;
-    font-size: 1.4rem;
-    width: 42px; height: 42px;
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .score-desc {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.6;
-  }
+/* EXAMPLES TAB */
+.cat-section { margin-bottom: 48px; }
+.cat-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px; padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.cat-badge { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 6px; letter-spacing: 0.05em; }
+.badge-K { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-M { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+.badge-L { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+.cat-name { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 700; color: var(--ink); }
+.cat-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.cat-total { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 700; }
+.cat-K .cat-total { color: var(--K); }
+.cat-M .cat-total { color: var(--M); }
+.cat-L .cat-total { color: var(--L); }
 
-  /* Highlight box */
-  .highlight-box {
-    border: 2px solid var(--gold);
-    background: var(--gold-pale);
-    border-radius: 8px;
-    padding: 1.2rem 1.5rem;
-    margin: 1.2rem 0;
-  }
-  .highlight-box-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 0.7rem;
-    display: flex; align-items: center; gap: 0.4rem;
-  }
-  .highlight-item {
-    display: flex;
-    gap: 0.6rem;
-    margin-bottom: 0.65rem;
-    font-size: 0.93rem;
-    color: #3a2e10;
-    align-items: flex-start;
-  }
-  .highlight-item::before {
-    content: '✦';
-    color: var(--gold);
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-    font-size: 0.7rem;
-  }
-  .highlight-em {
-    font-weight: 700;
-    background: linear-gradient(0deg, #ffe082 40%, transparent 40%);
-    padding: 0 2px;
-  }
+.cluster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 700px) { .cluster-grid { grid-template-columns: 1fr; } }
+.cluster-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 12px;
+  padding: 18px 20px; box-shadow: var(--shadow); transition: border-color 0.15s, box-shadow 0.15s;
+}
+.cluster-card:hover { border-color: #c5bdb4; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.cl-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cl-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+.cl-meta { display: flex; align-items: center; gap: 8px; }
+.cl-cnt { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+.cl-pct-pill { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; }
+.pct-K { background: #dbeafe; color: #1d4ed8; }
+.pct-M { background: #f3e8ff; color: #7e22ce; }
+.pct-L { background: #d1fae5; color: #065f46; }
+.cl-bar-track { height: 4px; background: #f0ebe4; border-radius: 100px; margin-bottom: 14px; }
+.cl-bar-fill { height: 4px; border-radius: 100px; }
+.cl-qs { display: flex; flex-direction: column; gap: 6px; }
+.cl-q { display: flex; gap: 8px; align-items: flex-start; }
+.cl-qnum { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); flex-shrink: 0; margin-top: 3px; }
+.cl-qtext { font-size: 12px; color: var(--dim); line-height: 1.65; }
+.rank-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 5px;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.rank-1 { background: #fef3c7; color: #d97706; }
+.rank-2 { background: #f1f5f9; color: #64748b; }
+.rank-3 { background: #fdf4ed; color: #c9855c; }
+.rank-4 { background: #f8f8f8; color: #9ca3af; }
 
-  /* Diagnosis tag strip */
-  .tag-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0.6rem 0;
-  }
-  .tag {
-    padding: 0.25rem 0.7rem;
-    border-radius: 3px;
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-  .tag-d { background: #fde8e8; color: var(--red); border: 1px solid #f5bbb8; }
-  .tag-c { background: #fff3d6; color: #8a6000; border: 1px solid #f0d080; }
+/* 1분 자기소개 TAB */
+.selfintro-wrap { max-width: 760px; }
+h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 1.45rem; font-weight: 700;
+  margin: 3rem 0 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--ink);
+}
+h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; margin: 1.8rem 0 0.7rem; color: var(--accent-blue); }
+.intro-block {
+  border-left: 4px solid var(--gold);
+  padding: 1.3rem 1.5rem;
+  background: var(--gold-pale);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 2.5rem;
+  font-size: 1rem; color: #3a3020; line-height: 1.9;
+}
+.intro-block strong { color: var(--gold); }
 
-  /* Problem type banner */
-  .problem-banner {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    background: #f0eee8;
-    border-radius: 6px;
-    padding: 0.9rem 1.2rem;
-    margin-bottom: 1rem;
-  }
-  .problem-icon {
-    font-size: 1.3rem;
-    flex-shrink: 0;
-  }
-  .problem-text {
-    font-size: 0.9rem;
-    color: #4a4035;
-  }
-  .problem-text strong {
-    color: var(--ink);
-  }
+.case-card { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; margin: 2rem 0; box-shadow: var(--shadow); }
+.case-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.4rem; background: var(--ink); color: #faf8f4; }
+.case-number {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--red); display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1rem; flex-shrink: 0; color: white;
+}
+.case-tag { font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase; color: #c0a060; font-weight: 500; }
+.case-title-text { font-family: 'Noto Serif KR', serif; font-size: 1rem; font-weight: 700; line-height: 1.3; }
+.case-body { padding: 1.4rem 1.5rem; background: white; }
+.answer-box {
+  background: #f5f3ef; border-radius: 6px; padding: 1.1rem 1.3rem;
+  margin: 1rem 0 1.4rem; font-size: 0.91rem; color: #4a4035;
+  border-left: 3px solid #bbb; font-style: italic; line-height: 1.85;
+}
+.answer-box-label { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 700; font-style: normal; margin-bottom: 0.4rem; }
+.feedback-block { background: var(--red-pale); border: 1.5px solid #e8c4c0; border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.1rem 0; }
+.feedback-block-label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.73rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.8rem; }
+.score-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+.score-big { font-family: 'Noto Serif KR', serif; font-size: 2rem; font-weight: 900; color: var(--red); line-height: 1; }
+.grade-badge { background: var(--red); color: white; font-weight: 900; font-size: 1.3rem; width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.score-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+.tag-strip { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0; }
+.tag { padding: 0.23rem 0.65rem; border-radius: 3px; font-size: 0.73rem; font-weight: 700; }
+.tag-d { background: #fde8e8; color: var(--red); border: 1px solid #f5bbb8; }
+.tag-c { background: #fff3d6; color: #8a6000; border: 1px solid #f0d080; }
+.problem-banner { display: flex; align-items: center; gap: 0.7rem; background: #f5f3ef; border-radius: 6px; padding: 0.85rem 1.1rem; margin-bottom: 1rem; }
+.problem-icon { font-size: 1.2rem; flex-shrink: 0; }
+.problem-text { font-size: 0.88rem; color: #4a4035; }
+.problem-text strong { color: var(--ink); }
+.highlight-box { border: 2px solid var(--gold); background: var(--gold-pale); border-radius: 8px; padding: 1.1rem 1.4rem; margin: 1.1rem 0; }
+.highlight-box-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.4rem; }
+.highlight-item { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; font-size: 0.9rem; color: #3a2e10; align-items: flex-start; }
+.highlight-item::before { content: '✦'; color: var(--gold); flex-shrink: 0; margin-top: 0.15rem; font-size: 0.68rem; }
+.highlight-em { font-weight: 700; background: linear-gradient(0deg, #ffe082 40%, transparent 40%); padding: 0 2px; }
+.summary-box { background: #f0f4f9; border: 1.5px solid #c0cdd8; border-radius: 8px; padding: 1.4rem 1.6rem; margin: 2rem 0; }
+.summary-box h3 { color: var(--accent-blue); margin-top: 0; margin-bottom: 0.9rem; font-size: 1rem; }
+.summary-row { display: flex; gap: 0.6rem; margin-bottom: 0.55rem; font-size: 0.9rem; align-items: flex-start; }
+.summary-num { flex-shrink: 0; width: 22px; height: 22px; background: var(--accent-blue); color: white; border-radius: 50%; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 0.1rem; }
+.cta-section { margin-top: 3rem; background: var(--ink); border-radius: 12px; padding: 2.5rem 2rem; text-align: center; color: #faf8f4; }
+.cta-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: #c0a060; margin-bottom: 0.8rem; font-weight: 600; }
+.cta-title { font-family: 'Noto Serif KR', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.4; margin-bottom: 0.7rem; }
+.cta-title span { color: #e8a040; }
+.cta-desc { font-size: 0.92rem; color: #b0a898; max-width: 420px; margin: 0 auto 1.8rem; line-height: 1.8; font-weight: 300; }
+.cta-btn { display: inline-block; background: var(--red); color: white; text-decoration: none; font-weight: 700; font-size: 0.95rem; padding: 0.9rem 2.4rem; border-radius: 6px; letter-spacing: 0.05em; transition: background 0.2s, transform 0.15s; }
+.cta-btn:hover { background: #a93226; transform: translateY(-2px); }
+.cta-small { font-size: 0.75rem; color: #7a7065; margin-top: 0.8rem; }
+.divider { border: none; border-top: 1px dashed var(--border); margin: 2.5rem 0; }
+.footer { text-align: center; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 40px; padding-bottom: 40px; letter-spacing: 0.05em; line-height: 1.8; }
 
-  /* Divider */
-  .divider {
-    border: none;
-    border-top: 1px dashed var(--border);
-    margin: 2.5rem 0;
-  }
-
-  /* CTA */
-  .cta-section {
-    margin-top: 4rem;
-    background: var(--ink);
-    border-radius: 12px;
-    padding: 3rem 2rem;
-    text-align: center;
-    color: var(--paper);
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-section::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 20px,
-      rgba(255,255,255,0.02) 20px,
-      rgba(255,255,255,0.02) 21px
-    );
-  }
-  .cta-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: #c0a060;
-    margin-bottom: 1rem;
-    font-weight: 600;
-  }
-  .cta-title {
-    font-family: 'Noto Serif KR', serif;
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    font-weight: 900;
-    line-height: 1.4;
-    margin-bottom: 0.8rem;
-  }
-  .cta-title span {
-    color: #e8a040;
-  }
-  .cta-desc {
-    font-size: 0.95rem;
-    color: #b0a898;
-    max-width: 440px;
-    margin: 0 auto 2rem;
-    line-height: 1.8;
-    font-weight: 300;
-  }
-  .cta-btn {
-    display: inline-block;
-    background: var(--red);
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 1rem 2.6rem;
-    border-radius: 6px;
-    letter-spacing: 0.05em;
-    transition: background 0.2s, transform 0.15s;
-    position: relative;
-    z-index: 1;
-  }
-  .cta-btn:hover {
-    background: #a93226;
-    transform: translateY(-2px);
-  }
-  .cta-small {
-    font-size: 0.78rem;
-    color: #7a7065;
-    margin-top: 1rem;
-    position: relative; z-index: 1;
-  }
-
-  /* Summary box */
-  .summary-box {
-    background: #f0f4f9;
-    border: 1.5px solid #c0cdd8;
-    border-radius: 8px;
-    padding: 1.5rem 1.8rem;
-    margin: 2.5rem 0;
-  }
-  .summary-box h3 {
-    color: var(--accent-blue);
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    letter-spacing: 0.05em;
-  }
-  .summary-row {
-    display: flex;
-    gap: 0.6rem;
-    margin-bottom: 0.6rem;
-    font-size: 0.9rem;
-    align-items: flex-start;
-  }
-  .summary-num {
-    flex-shrink: 0;
-    width: 22px; height: 22px;
-    background: var(--accent-blue);
-    color: white;
-    border-radius: 50%;
-    font-size: 0.72rem;
-    font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 0.1rem;
-  }
+@media (max-width: 600px) {
+  .header { padding: 28px 20px 24px; }
+  .tabs { padding: 0 12px; overflow-x: auto; }
+  .main { padding: 24px 20px 60px; }
+  .tab-btn { padding: 14px 12px; font-size: 12px; }
+}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-label">면접 메이트 실전 분석 리포트</div>
-  <h1>"1분 자기소개,<br><span>당신은 몇 점짜리입니까?</span>"</h1>
-  <p class="header-sub">AI가 실제로 F등급을 준 답변 3가지 유형을 분석했습니다.<br>당신의 답변은 어느 유형에 속하나요?</p>
-  <div class="header-grade-badge">F등급 공개 분석</div>
-</header>
-
-<article class="article">
-
-  <div class="intro-block">
-    면접 준비를 할 때 1분 자기소개를 가볍게 생각하는 분들이 많습니다. <strong>"그냥 짧게 소개하면 되는 거 아닌가요?"</strong> — 아닙니다. 면접 메이트의 AI가 분석한 실제 데이터를 보면, 1분 자기소개에서 F등급을 받는 패턴은 생각보다 뚜렷하고 반복됩니다. 오늘은 그 대표적인 3가지 유형을 실전 사례 기반으로 해부합니다.
+<div class="header">
+  <div>
+    <div class="header-label">Interview Analytics · 삼성전자 면접</div>
+    <div class="header-title">면접질문<br><span>KML 분류 분석</span></div>
   </div>
+  <div class="header-meta">
+    <strong>총 411개</strong> 질문 분석<br>
+    직무역량(K) · 인성관심(M) · 로열티(L)<br>
+    기타(E) · 1분자기소개
+  </div>
+</div>
 
-  <h2>F등급을 만드는 3가지 패턴</h2>
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('overview', this)">전체 개요</button>
+  <button class="tab-btn" onclick="switchTab('examples', this)">대표 질문 Top 4</button>
+  <button class="tab-btn" onclick="switchTab('selfintro', this)">1분 자기소개 큐레이션</button>
+</div>
 
-  <p>면접 메이트 AI는 1분 자기소개를 <strong>직무유사성 / 성과지표 / 간결성 / 일관성 / 적합성</strong>, 총 5개 항목으로 평가합니다. F등급 답변들을 분석하면 아래 3가지 실패 유형으로 수렴됩니다.</p>
+<div class="main">
 
-  <!-- CASE 1 -->
-  <div class="case-card">
-    <div class="case-header">
-      <div class="case-number">1</div>
-      <div class="case-title-wrap">
-        <div class="case-tag">유형 A · Pattern of Failure</div>
-        <div class="case-title">단답형 — 핵심 없이 너무 짧게 말하는 경우</div>
+  <!-- 전체 개요 -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="kpi-row">
+      <div class="kpi kpi-M">
+        <div class="kpi-key">M · 인성/관심</div>
+        <div class="kpi-num">153</div>
+        <div class="kpi-pct">37.2%</div>
+        <div class="kpi-label">관심·태도·컬처핏</div>
+      </div>
+      <div class="kpi kpi-K">
+        <div class="kpi-key">K · 직무역량</div>
+        <div class="kpi-num">128</div>
+        <div class="kpi-pct">31.1%</div>
+        <div class="kpi-label">역량·기술·경험</div>
+      </div>
+      <div class="kpi kpi-L">
+        <div class="kpi-key">L · 로열티</div>
+        <div class="kpi-num">89</div>
+        <div class="kpi-pct">21.7%</div>
+        <div class="kpi-label">지원동기·충성도</div>
+      </div>
+      <div class="kpi kpi-E">
+        <div class="kpi-key">E · 기타</div>
+        <div class="kpi-num">27</div>
+        <div class="kpi-pct">6.6%</div>
+        <div class="kpi-label">아이스브레이킹 등</div>
+      </div>
+      <div class="kpi kpi-1">
+        <div class="kpi-key">1분 자기소개</div>
+        <div class="kpi-num">14</div>
+        <div class="kpi-pct">3.4%</div>
+        <div class="kpi-label">자기소개 요청</div>
       </div>
     </div>
-    <div class="case-body">
 
-      <div class="problem-banner">
-        <span class="problem-icon">📋</span>
-        <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 긴장하면 말이 짧아지는 분, 준비는 했는데 막상 입 밖으로 나오면 반 토막이 되는 분</span>
+    <div class="stacked-wrap">
+      <div class="section-label">전체 비중 분포</div>
+      <div class="stacked-bar">
+        <div class="seg" style="width:37.2%;background:var(--M)">M 37.2%</div>
+        <div class="seg" style="width:31.1%;background:var(--K)">K 31.1%</div>
+        <div class="seg" style="width:21.7%;background:var(--L)">L 21.7%</div>
+        <div class="seg" style="width:6.6%;background:var(--E)">E</div>
+        <div class="seg" style="width:3.4%;background:var(--one)"></div>
       </div>
-
-      <div class="answer-box">
-        <div class="answer-box-label">유형 A 실제 사례 (재구성)</div>
-        "안녕하십니까. 저는 데이터 속에 담긴 고객의 행동 패턴과 서비스 이용 흐름을 분석해 인사이트를 도출하고, 이를 바탕으로 더 나은 전략을 설계하는 과정에 큰 흥미를 느껴 데이터 분석 직무에 지원하게 되었습니다."
+      <div class="legend-row">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--M)"></div>M 인성/관심 37.2%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--K)"></div>K 직무역량 31.1%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--L)"></div>L 로열티 21.7%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--E)"></div>E 기타 6.6%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--one)"></div>1분 자기소개 3.4%</div>
       </div>
+    </div>
 
-      <div class="feedback-block">
-        <div class="feedback-block-label">
-          <span>🤖</span> AI 피드백 요약
-        </div>
-        <div class="score-row">
-          <div class="score-big">45점</div>
-          <div class="grade-badge">F</div>
-          <div class="score-desc">
-            전체 5개 항목<br>전부 D등급
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">카테고리 비교</div>
+        <div class="hbar-list">
+          <div>
+            <div class="hbar-top"><span class="hbar-label">M 인성/관심</span><span class="hbar-val">153개</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:var(--M)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">K 직무역량</span><span class="hbar-val">128개</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:83.7%;background:var(--K)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">L 로열티</span><span class="hbar-val">89개</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:58.2%;background:var(--L)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">E 기타</span><span class="hbar-val">27개</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:17.6%;background:var(--E)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">1분 자기소개</span><span class="hbar-val">14개</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:9.2%;background:var(--one)"></div></div>
           </div>
         </div>
-        <div class="tag-strip">
-          <span class="tag tag-d">직무유사성 D</span>
-          <span class="tag tag-d">성과지표 D</span>
-          <span class="tag tag-d">간결성 D</span>
-          <span class="tag tag-d">일관성 D</span>
-          <span class="tag tag-d">적합성 D</span>
+        <div class="insight">
+          <div class="insight-title">// INSIGHT</div>
+          <p>M(인성/관심)이 <strong>37.2%</strong>로 1위. K(직무역량)보다 M이 많다는 건 삼성전자가 <strong>직무기술보다 태도와 컬처핏</strong>을 더 중시한다는 시그널입니다.</p>
         </div>
       </div>
-
-      <div class="highlight-box">
-        <div class="highlight-box-label">
-          <span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다
-        </div>
-        <div class="highlight-item">
-          <span><span class="highlight-em">내용이 너무 짧습니다.</span> 지원 직무와 연결되는 구체적인 경험이 전혀 없어, 역량이나 강점을 파악할 수 없는 수준입니다.</span>
-        </div>
-        <div class="highlight-item">
-          <span>관심이 생긴 이유는 알겠지만, <span class="highlight-em">"왜 나인가"에 대한 답</span>이 없습니다. 지원 동기만 있고 자기소개는 없는 셈입니다.</span>
-        </div>
-        <div class="highlight-item">
-          <span>다시 준비할 포인트: <span class="highlight-em">첫 문장을 결론으로</span> 시작하고(직무 + 나의 강점 한 줄), 대표 경험 1개를 <strong>문제→행동→결과</strong> 3문장으로 붙이고, 입사 후 기여점으로 닫아야 합니다.</span>
+      <div class="card">
+        <div class="card-title">비중 분포</div>
+        <div class="chart-wrap">
+          <canvas id="pieChart"></canvas>
         </div>
       </div>
-
-      <p style="font-size:0.9rem; color:var(--muted); margin-top:1rem;">
-        💡 <em>읽고 나서 느껴지시나요? 지금 본인의 1분 자기소개를 그대로 면접 메이트에 입력하면, 어떤 피드백이 나올지 궁금하지 않으신가요?</em>
-      </p>
     </div>
   </div>
 
-  <!-- CASE 2 -->
-  <div class="case-card">
-    <div class="case-header">
-      <div class="case-number">2</div>
-      <div class="case-title-wrap">
-        <div class="case-tag">유형 B · Pattern of Failure</div>
-        <div class="case-title">필살기 부재 — HOW+Result를 제대로 전달하지 못한 경우</div>
-      </div>
-    </div>
-    <div class="case-body">
+  <!-- 대표 질문 Top 4 -->
+  <div class="tab-content" id="tab-examples">
 
-      <div class="problem-banner">
-        <span class="problem-icon">💬</span>
-        <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 경험이 있긴 한데 말로 정리가 안 되는 분, 이야기는 길어지는데 무슨 말인지 모르겠다는 피드백을 받은 분</span>
-      </div>
-
-      <div class="answer-box">
-        <div class="answer-box-label">유형 B 실제 사례 (재구성)</div>
-        "안녕하십니까, 이번 공채 마케팅 직무에 지원하게 된 지원자입니다. 저는 2022년부터 다양한 대외활동을 해왔는데요, 처음에는 식품 관련 콘텐츠 블로그를 시작하면서 이 분야에 관심이 생겼고, 거기서 더 하고 싶은 게 생겨서 전문적인 활동을 두 가지 정도 이어가게 되었습니다. 그런 경험들이 쌓이면서 마케팅을 꿈꾸게 되었습니다."
-      </div>
-
-      <div class="feedback-block">
-        <div class="feedback-block-label">
-          <span>🤖</span> AI 피드백 요약
+    <div class="cat-section cat-K">
+      <div class="cat-header">
+        <span class="cat-badge badge-K">K</span>
+        <div>
+          <div class="cat-name">직무역량</div>
+          <div class="cat-sub">역량·기술·경험 검증 — 총 128개</div>
         </div>
-        <div class="score-row">
-          <div class="score-big">45점</div>
-          <div class="grade-badge">F</div>
-          <div class="score-desc">
-            전체 5개 항목<br>전부 D등급
+        <div class="cat-total">128</div>
+      </div>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-1">01</span><span class="cl-name">창의성 경험</span></div>
+            <div class="cl-meta"><span class="cl-cnt">12개</span><span class="cl-pct-pill pct-K">9.4%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">창의적으로 문제를 해결한 경험에 대해 말해보시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">본인의 창의적인 경험은 무엇이 있었나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">본인이 생각하는 창의성이란 무엇인가요?</span></div>
           </div>
         </div>
-        <div class="tag-strip">
-          <span class="tag tag-d">직무유사성 D</span>
-          <span class="tag tag-d">성과지표 D</span>
-          <span class="tag tag-d">간결성 D</span>
-          <span class="tag tag-d">일관성 D</span>
-          <span class="tag tag-d">적합성 D</span>
-        </div>
-      </div>
-
-      <div class="highlight-box">
-        <div class="highlight-box-label">
-          <span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다
-        </div>
-        <div class="highlight-item">
-          <span>블로그 운영이라는 소재는 있지만, <span class="highlight-em">실제로 무엇을 했는지 역할이 보이지 않습니다.</span> "콘텐츠 기획, 키워드 선정, 성과 분석, 협업" 중 어느 것을 했나요? 그게 필살기입니다.</span>
-        </div>
-        <div class="highlight-item">
-          <span><span class="highlight-em">결과 지표 한 줄이 없습니다.</span> 방문자 수, 조회수, 검색 노출, 전환 유도 등 — 숫자 하나가 신뢰도를 완전히 바꿉니다.</span>
-        </div>
-        <div class="highlight-item">
-          <span>다시 준비할 포인트: <span class="highlight-em">경험 1~2개만 골라 "행동 → 결과"로 압축</span>하고, 마지막 한 문장은 반드시 입사 후 기여점으로 닫아야 합니다.</span>
-        </div>
-      </div>
-
-      <p style="font-size:0.9rem; color:var(--muted); margin-top:1rem;">
-        💡 <em>경험이 없어서 F가 아닙니다. 경험을 어떻게 말하느냐의 문제입니다. 지금 당신의 답변에서 HOW와 Result가 명확히 보이나요?</em>
-      </p>
-    </div>
-  </div>
-
-  <!-- CASE 3 -->
-  <div class="case-card">
-    <div class="case-header">
-      <div class="case-number">3</div>
-      <div class="case-title-wrap">
-        <div class="case-tag">유형 C · Pattern of Failure</div>
-        <div class="case-title">숫자만 던지기 — Result만 있고 HOW가 없는 경우</div>
-      </div>
-    </div>
-    <div class="case-body">
-
-      <div class="problem-banner">
-        <span class="problem-icon">📊</span>
-        <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 자소서에 성과 수치를 썼으니 1분 자기소개도 비슷하게 말하면 된다고 생각한 분, 스펙은 좋은데 면접에서 약하다는 이야기를 들은 분</span>
-      </div>
-
-      <div class="answer-box">
-        <div class="answer-box-label">유형 C 실제 사례 (재구성)</div>
-        "안녕하십니까. 저는 이번 경영기획 직무에 지원하게 된 지원자입니다. 저는 A사 인턴 시절 신규 프로그램을 기획하여 기존 20% 수준이던 지표를 30%로 개선한 경험이 있습니다. 또한 B사에서 오류 점검 시트를 제작하여 오류율을 15% 개선한 경험이 있습니다. 이러한 경험을 바탕으로 귀사의 경영기획 직무에 기여하고 싶어 지원하게 되었습니다."
-      </div>
-
-      <div class="feedback-block">
-        <div class="feedback-block-label">
-          <span>🤖</span> AI 피드백 요약
-        </div>
-        <div class="score-row">
-          <div class="score-big">43점</div>
-          <div class="grade-badge">F</div>
-          <div class="score-desc">
-            일부 항목 C,<br>전체는 F등급
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-2">02</span><span class="cl-name">강점 / 차별점</span></div>
+            <div class="cl-meta"><span class="cl-cnt">11개</span><span class="cl-pct-pill pct-K">8.6%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:91.7%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">다른 지원자보다 뛰어난 점은 무엇인가요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">본인이 발휘할 수 있는 역량에 대해 말하시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">전공 분야에서 자신의 장점은 무엇이었나요?</span></div>
           </div>
         </div>
-        <div class="tag-strip">
-          <span class="tag tag-c">직무유사성 C</span>
-          <span class="tag tag-c">성과지표 C</span>
-          <span class="tag tag-d">간결성 D</span>
-          <span class="tag tag-d">일관성 D</span>
-          <span class="tag tag-d">적합성 D</span>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-3">03</span><span class="cl-name">직무 지원 동기</span></div>
+            <div class="cl-meta"><span class="cl-cnt">11개</span><span class="cl-pct-pill pct-K">8.6%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:91.7%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">왜 해당 직무에 지원하였나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">회사 지원동기 말고 직무 지원동기를 말해주세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">자신이 해당 직무에 적합한 이유에 대해 말해보시오.</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-4">04</span><span class="cl-name">전공 / 기술 지식</span></div>
+            <div class="cl-meta"><span class="cl-cnt">10개</span><span class="cl-pct-pill pct-K">7.8%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:83.3%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">반도체 공정에 대해 아는 만큼 설명해 보세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">MOSFET 동작 원리와 CMOS 인버터 특성 곡선을 그리며 설명하시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">CVD 공정에서 Void가 생기는 것을 방지하는 방법은?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-section cat-M">
+      <div class="cat-header">
+        <span class="cat-badge badge-M">M</span>
+        <div>
+          <div class="cat-name">인성 / 관심</div>
+          <div class="cat-sub">관심·태도·컬처핏 검증 — 총 153개</div>
+        </div>
+        <div class="cat-total">153</div>
+      </div>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-1">01</span><span class="cl-name">장단점</span></div>
+            <div class="cl-meta"><span class="cl-cnt">13개</span><span class="cl-pct-pill pct-M">8.5%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">본인의 장점과 단점을 말해주세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">남들에게 들은 본인의 단점 한 가지를 이야기해주세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">친구들이 이야기하는 본인의 장단점이 무엇인가요?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-2">02</span><span class="cl-name">힘들었던 경험 / 극복</span></div>
+            <div class="cl-meta"><span class="cl-cnt">7개</span><span class="cl-pct-pill pct-M">4.6%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:53.8%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">이면서 가장 힘들었던 경험은? 극복 방식은?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">학창시절 어렵고 힘들었던 경험을 말해보세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">팀 활동에서 힘든 일이 생긴다면 어떻게 하겠나요?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-3">03</span><span class="cl-name">공백기 / 학창시절</span></div>
+            <div class="cl-meta"><span class="cl-cnt">7개</span><span class="cl-pct-pill pct-M">4.6%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:53.8%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">공백 기간 동안 무엇을 하였나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">휴학 기간 동안 뭐 하였나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">2년의 공백기가 있는데 이 때 무엇을 하였나요?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-4">04</span><span class="cl-name">가치관 / 인생관</span></div>
+            <div class="cl-meta"><span class="cl-cnt">7개</span><span class="cl-pct-pill pct-M">4.6%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:53.8%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">어떤 가치관/인생의 목표를 지향하면서 살고 있습니까?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">일에서 과정과 결과 중 어떤 것이 더 중요한가요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">회사에서 중요하다고 생각하는 가치가 무엇인가요?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-section cat-L">
+      <div class="cat-header">
+        <span class="cat-badge badge-L">L</span>
+        <div>
+          <div class="cat-name">로열티 / 지원동기</div>
+          <div class="cat-sub">지원동기·회사이해도·충성도 확인 — 총 89개</div>
+        </div>
+        <div class="cat-total">89</div>
+      </div>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-1">01</span><span class="cl-name">삼성전자 지원동기</span></div>
+            <div class="cl-meta"><span class="cl-cnt">13개</span><span class="cl-pct-pill pct-L">14.6%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">왜 삼성전자에 지원하였나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">반도체 분야에 어떻게 관심을 갖게 되었으며 지원한 이유는?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">학점이 낮은데 왜 삼성전자에 지원하셨습니까?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-2">02</span><span class="cl-name">삼성전자 이해도</span></div>
+            <div class="cl-meta"><span class="cl-cnt">9개</span><span class="cl-pct-pill pct-L">10.1%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:69.2%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">삼성전자에 대해 알고 있는 것을 말해주십시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">삼성전자 보완점을 제시해 보시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">회사에 대한 긍정적·부정적 기사를 설명해보아라.</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-3">03</span><span class="cl-name">입사 후 포부 / 하고 싶은 일</span></div>
+            <div class="cl-meta"><span class="cl-cnt">8개</span><span class="cl-pct-pill pct-L">9.0%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:61.5%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">입사 후 어떤 일을 하고 싶은가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">10년 후 나의 모습에 대해 말해보세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">전공과 결부하여 회사에 어떤 기여를 할 수 있는지 말해보시오.</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-4">04</span><span class="cl-name">타사 비교 / 복수 지원</span></div>
+            <div class="cl-meta"><span class="cl-cnt">8개</span><span class="cl-pct-pill pct-L">9.0%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:61.5%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">삼성전자 이외에 지원한 기업이 있나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">삼성전자와 SK하이닉스 둘 다 붙으면 어디를 선택할 것인가요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">해당 분야 외국고기업이 있는데 왜 삼성전자가 1순위인가요?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1분 자기소개 큐레이션 -->
+  <div class="tab-content" id="tab-selfintro">
+    <div class="selfintro-wrap">
+
+      <div class="intro-block">
+        면접 준비를 할 때 1분 자기소개를 가볍게 생각하는 분들이 많습니다. <strong>"그냥 짧게 소개하면 되는 거 아닌가요?"</strong> — 아닙니다. 면접 메이트의 AI가 분석한 실제 데이터를 보면, 1분 자기소개에서 F등급을 받는 패턴은 생각보다 뚜렷하고 반복됩니다. 오늘은 그 대표적인 3가지 유형을 실제 사례 기반으로 해부합니다.
+      </div>
+
+      <h2>F등급을 만드는 3가지 패턴</h2>
+      <p style="margin-bottom:1.5rem;color:#2c2520;">면접 메이트 AI는 1분 자기소개를 <strong>직무연관성 / 성과지향 / 간결성 / 일관성 / 적합성</strong>, 이 5개 항목으로 평가합니다. F등급 답변들을 분석하면 아래 3가지 실패 유형으로 수렴됩니다.</p>
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-number">1</div>
+          <div>
+            <div class="case-tag">유형 A · Pattern of Failure</div>
+            <div class="case-title-text">단발형 — 핵심 없이 너무 짧게 말하는 경우</div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="problem-banner">
+            <span class="problem-icon">😓</span>
+            <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 긴장하면 말이 짧아지는 분, 준비는 했는데 막상 반으로 나오면 할 말이 없는 분</span>
+          </div>
+          <div class="answer-box">
+            <div class="answer-box-label">유형 A 실제 사례 (재구성)</div>
+            "안녕하십니까. 저는 데이터 속에 담긴 고객의 행동 패턴과 서비스 이용 흐름을 분석해 인사이트를 도출하고, 이를 바탕으로 더 나은 전략을 설계하는 과정에 큰 흥미를 느껴 데이터 분석 직무에 지원하게 되었습니다."
+          </div>
+          <div class="feedback-block">
+            <div class="feedback-block-label"><span>🤖</span> AI 피드백 요약</div>
+            <div class="score-row">
+              <div class="score-big">45점</div>
+              <div class="grade-badge">F</div>
+              <div class="score-desc">전체 5개 항목<br>전부 D등급</div>
+            </div>
+            <div class="tag-strip">
+              <span class="tag tag-d">직무연관성 D</span>
+              <span class="tag tag-d">성과지향 D</span>
+              <span class="tag tag-d">간결성 D</span>
+              <span class="tag tag-d">일관성 D</span>
+              <span class="tag tag-d">적합성 D</span>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-box-label"><span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다</div>
+            <div class="highlight-item"><span><span class="highlight-em">내용이 너무 짧습니다.</span> 지원 직무와 연결되는 구체적인 경험이 전혀 없어, 역량이나 가능성을 확인할 수 있는 수준이 아닙니다.</span></div>
+            <div class="highlight-item"><span>관심이 생긴 이유는 알겠지만, <span class="highlight-em">"왜 나인가"에 대한 답</span>이 없습니다. 지원 동기만 있고 자기소개는 없는 상태입니다.</span></div>
+            <div class="highlight-item"><span>다음 준비할 포인트: <span class="highlight-em">첫 문장을 결론으로</span> 시작하고(직무 + 대표 강점 한 줄), 대표 경험 1개를 <strong>문제→행동→결과</strong> 3문장으로 붙이고, 마무리는 기여 의지 한 문장으로 닫아야 합니다.</span></div>
+          </div>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:1rem;">💡 <em>익숙하게 느껴지셨나요? 지금 본인의 1분 자기소개를 그대로 면접 메이트에 입력하면, 어떤 피드백이 나올지 궁금하지 않으신가요?</em></p>
         </div>
       </div>
 
-      <div class="highlight-box">
-        <div class="highlight-box-label">
-          <span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-number">2</div>
+          <div>
+            <div class="case-tag">유형 B · Pattern of Failure</div>
+            <div class="case-title-text">나열형 — HOW+Result를 제대로 전달하지 못한 경우</div>
+          </div>
         </div>
-        <div class="highlight-item">
-          <span>수치를 언급한 점은 좋았습니다. 하지만 <span class="highlight-em">제시한 수치에 대한 구체적인 HOW가 없습니다.</span> "어떻게 20%를 30%로 올렸는지?", "오류율을 어떻게 15% 개선하였는지?"가 빠지면 면접관은 그 수치를 신뢰하지 않습니다.</span>
-        </div>
-        <div class="highlight-item">
-          <span>숫자는 결론입니다. 결론만 말하고 과정을 빼면 <span class="highlight-em">설득력이 아니라 의심만 생깁니다.</span></span>
-        </div>
-        <div class="highlight-item">
-          <span>다시 준비할 포인트: 경험 2개 중 더 강한 것 1개를 골라 <span class="highlight-em">"무엇을 바꿨고 → 결과가 어떻게 달라졌는지"</span> HOW+Result 쌍으로 재구성하세요.</span>
+        <div class="case-body">
+          <div class="problem-banner">
+            <span class="problem-icon">💬</span>
+            <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 경험이 있긴 한데 말로 정리가 잘 안되는 분, 이야기는 길어지는데 무슨 말인지 모르겠다는 피드백을 받은 분</span>
+          </div>
+          <div class="answer-box">
+            <div class="answer-box-label">유형 B 실제 사례 (재구성)</div>
+            "안녕하십니까, 이번 공채 마케팅 직무에 지원하게 된 지원자입니다. 저는 2022년부터 다양한 대외활동을 해왔는데요, 처음에는 식품 관련 콘텐츠 블로그를 시작하면서 이 분야에 관심이 생겼고, 거기서 더 하고 싶은 게 생겨서 전문적인 활동을 두 가지 정도 이어가게 되었습니다. 그런 경험들이 쌓이면서 마케팅을 꿈꾸게 되었습니다."
+          </div>
+          <div class="feedback-block">
+            <div class="feedback-block-label"><span>🤖</span> AI 피드백 요약</div>
+            <div class="score-row">
+              <div class="score-big">45점</div>
+              <div class="grade-badge">F</div>
+              <div class="score-desc">전체 5개 항목<br>전부 D등급</div>
+            </div>
+            <div class="tag-strip">
+              <span class="tag tag-d">직무연관성 D</span>
+              <span class="tag tag-d">성과지향 D</span>
+              <span class="tag tag-d">간결성 D</span>
+              <span class="tag tag-d">일관성 D</span>
+              <span class="tag tag-d">적합성 D</span>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-box-label"><span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다</div>
+            <div class="highlight-item"><span>블로그 이야기라는 소재는 있지만, <span class="highlight-em">실제로 무엇을 했는지 역할이 보이지 않습니다.</span> "콘텐츠 기획, 키워드 선정, 성과 분석, 협업" 중 어떤 걸 했나요? 그게 핵심이었습니다.</span></div>
+            <div class="highlight-item"><span><span class="highlight-em">결과 지표 한 줄이 없습니다.</span> 방문자 수, 조회수, 게시 노출, 수익 정도 등 — 숫자 하나가 신뢰도를 완전히 바꿉니다.</span></div>
+            <div class="highlight-item"><span>다음 준비할 포인트: <span class="highlight-em">경험 1~2개만 골라 "행동 → 결과"로 압축</span>하고, 마지막 한 문장은 반드시 입사 후 기여 의지로 닫아야 합니다.</span></div>
+          </div>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:1rem;">💡 <em>경험이 있어도 F가 아닙니다. 경험을 어떻게 말하느냐가 문제입니다. 지금 당신의 답변에서 HOW와 Result가 명확히 보이나요?</em></p>
         </div>
       </div>
 
-      <p style="font-size:0.9rem; color:var(--muted); margin-top:1rem;">
-        💡 <em>수치가 있어도 F가 나옵니다. "어떻게"가 없는 숫자는 반쪽짜리입니다. 지금 당신의 성과 뒤에 HOW가 붙어 있나요?</em>
-      </p>
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-number">3</div>
+          <div>
+            <div class="case-tag">유형 C · Pattern of Failure</div>
+            <div class="case-title-text">숫자만 던지기 — Result만 있고 HOW가 없는 경우</div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="problem-banner">
+            <span class="problem-icon">📊</span>
+            <span class="problem-text"><strong>이런 분들이 자주 해당됩니다:</strong> 인턴에서 성과 수치를 일궈내 1분 자기소개도 비슷하게 말하면 된다고 생각한 분, 실무는 좋았는데 면접에서 약하다는 이야기를 들은 분</span>
+          </div>
+          <div class="answer-box">
+            <div class="answer-box-label">유형 C 실제 사례 (재구성)</div>
+            "안녕하십니까. 저는 이번 경영기획 직무에 지원하게 된 지원자입니다. 저는 A사 인턴 시절 신규 프로그램을 기획하여 기존 20% 수준이던 지표를 30%로 개선한 경험이 있습니다. 또한 B사에서 오류 점검 시트를 제작하여 오류율을 15% 개선한 경험이 있습니다. 이러한 경험을 바탕으로 귀사의 경영기획 직무에 기여하고 싶어 지원하게 되었습니다."
+          </div>
+          <div class="feedback-block">
+            <div class="feedback-block-label"><span>🤖</span> AI 피드백 요약</div>
+            <div class="score-row">
+              <div class="score-big">43점</div>
+              <div class="grade-badge">F</div>
+              <div class="score-desc">일부 항목 C,<br>전체는 F등급</div>
+            </div>
+            <div class="tag-strip">
+              <span class="tag tag-c">직무연관성 C</span>
+              <span class="tag tag-c">성과지향 C</span>
+              <span class="tag tag-d">간결성 D</span>
+              <span class="tag tag-d">일관성 D</span>
+              <span class="tag tag-d">적합성 D</span>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-box-label"><span>⭐</span> AI가 짚은 핵심 문제 — 이것만 바꿔도 달라집니다</div>
+            <div class="highlight-item"><span>수치를 언급한 점은 좋았습니다. 하지만 <span class="highlight-em">제시한 수치에 대한 구체적인 HOW가 없습니다.</span> "어떻게 20%를 30%로 올렸는지?", "오류율을 어떻게 15% 개선하였는지?"가 빠지면 면접관은 그 수치를 신뢰하지 않습니다.</span></div>
+            <div class="highlight-item"><span>숫자는 결론이 아닙니다. 결론만 말하고 과정을 빼면 <span class="highlight-em">실력이 아니라 암기만 남깁니다.</span></span></div>
+            <div class="highlight-item"><span>다음 준비할 포인트: 경험 2개 중 더 강한 것 1개를 골라 <span class="highlight-em">"무엇을 바꿨고 → 결과가 어떻게 달라졌는지"</span> HOW+Result 순서로 재구성하세요.</span></div>
+          </div>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:1rem;">💡 <em>수치가 있어도 F가 됩니다. "어떻게"가 없는 숫자는 반쪽짜리입니다. 지금 당신의 성과 뒤에 HOW가 붙어 있나요?</em></p>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <h2>그래서, 1분 자기소개의 공식은?</h2>
+      <p style="margin-bottom:1rem;color:#2c2520;">세 유형을 관통하는 공통점은 하나였습니다. <strong>나의 "해낸 것"을 HOW + Result로 전달하지 못한다</strong>는 것이었습니다. 좋은 1분 자기소개의 구조는 단순합니다.</p>
+
+      <div class="summary-box">
+        <h3>✅ 1분 자기소개 합격 구조</h3>
+        <div class="summary-row">
+          <div class="summary-num">1</div>
+          <span><strong>첫 문장은 결론:</strong> "저는 [핵심어 한 줄]로 [성과]를 만든 [직무명] 지원자입니다"</span>
+        </div>
+        <div class="summary-row">
+          <div class="summary-num">2</div>
+          <span><strong>경험 1~2개, 행동→결과로 압축:</strong> 무엇을 어떻게 했고, 수치로 어떻게 달라졌는지</span>
+        </div>
+        <div class="summary-row">
+          <div class="summary-num">3</div>
+          <span><strong>마무리는 기여 의지로:</strong> 입사 후 구체적으로 무엇을 어떻게 기여할지 한 문장</span>
+        </div>
+      </div>
+
+      <div class="cta-section">
+        <div class="cta-label">지금 바로 확인하세요</div>
+        <div class="cta-title">당신의 1분 자기소개,<br><span>지금 몇 점인지 알고 싶지 않으신가요?</span></div>
+        <p class="cta-desc">면접 메이트에 답변을 입력하면, AI가 5개 항목별 점수와 등급, 그리고 구체적인 개선 가이드를 즉시 제공합니다. 위에서 본 F등급 피드백처럼요.</p>
+        <a href="https://nextleveltransform.com/interview_pay" class="cta-btn" target="_blank">면접 메이트에서 내 답변 진단받기 →</a>
+        <p class="cta-small">오늘 F등급을 받더라도 괜찮습니다. 중요한 건 면접 날 전에 아는 것입니다.</p>
+      </div>
+
     </div>
   </div>
 
-  <hr class="divider">
-
-  <h2>그래서, 1분 자기소개의 공식은?</h2>
-
-  <p>세 유형을 관통하는 공통점은 하나입니다. <strong>나의 "필살기"를 HOW + Result로 전달하지 못했다</strong>는 것입니다. 좋은 1분 자기소개의 구조는 단순합니다.</p>
-
-  <div class="summary-box">
-    <h3>✅ 1분 자기소개 황금 구조</h3>
-    <div class="summary-row">
-      <div class="summary-num">1</div>
-      <span><strong>첫 문장은 결론:</strong> "저는 [필살기 한 줄]로 [성과]를 만든 [직무명] 지원자입니다"</span>
-    </div>
-    <div class="summary-row">
-      <div class="summary-num">2</div>
-      <span><strong>경험 1~2개, 행동→결과로 압축:</strong> 무엇을 어떻게 했고, 수치로 어떻게 달라졌는지</span>
-    </div>
-    <div class="summary-row">
-      <div class="summary-num">3</div>
-      <span><strong>마무리는 기여점으로:</strong> 입사 후 구체적으로 무엇을 어떻게 기여할지 한 문장</span>
-    </div>
+  <div class="footer">
+    * 온라인 면접 후기 데이터 기반 · 유사 질문 클러스터링 분석 · KML: 직무역량(K) · 인성관심(M) · 로열티(L)<br>
+    면접 메이트 — AI 기반 면접 준비 서비스 | nextleveltransform.com
   </div>
 
-  <p>위 3가지 요소를 갖추면 AI 평가는 물론, 실제 면접관의 눈길도 달라집니다. 그리고 이 구조가 제대로 작동하는지 확인하는 가장 빠른 방법이 있습니다.</p>
+</div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="cta-label">지금 바로 확인하세요</div>
-    <div class="cta-title">당신의 1분 자기소개,<br><span>지금 몇 점인지 알고 싶지 않으신가요?</span></div>
-    <p class="cta-desc">면접 메이트에 답변을 입력하면, AI가 5개 항목별 점수와 등급, 그리고 구체적인 개선 가이드를 즉시 제공합니다. 위에서 본 F등급 피드백처럼요.</p>
-    <a href="https://nextleveltransform.com/interview_pay" class="cta-btn" target="_blank">면접 메이트에서 내 답변 진단받기 →</a>
-    <p class="cta-small">오늘 F등급을 받더라도 괜찮습니다. 중요한 건 면접 당일 전에 아는 것입니다.</p>
-  </div>
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
 
-</article>
-
+const pieCtx = document.getElementById('pieChart').getContext('2d');
+new Chart(pieCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['M 인성/관심', 'K 직무역량', 'L 로열티', 'E 기타', '1분 자기소개'],
+    datasets: [{
+      data: [153, 128, 89, 27, 14],
+      backgroundColor: ['#9333ea','#2563eb','#059669','#6b7280','#d97706'],
+      borderWidth: 4,
+      borderColor: '#faf8f4',
+    }]
+  },
+  options: {
+    cutout: '62%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#7a7065', font: { family: 'Noto Sans KR', size: 11 }, boxWidth: 12, boxHeight: 12, padding: 12 }
+      },
+      tooltip: {
+        callbacks: { label: ctx => ` ${ctx.parsed}개 (${(ctx.parsed/411*100).toFixed(1)}%)` },
+        backgroundColor: '#ffffff', borderColor: '#e5e0d8', borderWidth: 1,
+        titleColor: '#1a1612', bodyColor: '#7a7065', padding: 12,
+      }
+    }
+  }
+});
+</script>
 </body>
 </html>
