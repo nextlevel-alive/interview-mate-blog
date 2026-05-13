@@ -415,6 +415,51 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
 .si-insight-num { font-family: 'DM Mono', monospace; font-size: 28px; color: var(--gold); font-weight: 700; margin-bottom: 12px; line-height: 1; }
 .si-insight-title { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 700; margin-bottom: 10px; }
 .si-insight-desc { font-size: 12.5px; color: var(--muted); line-height: 1.8; }
+
+/* 임원면접 특징 추가 섹션 */
+.si-type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 700px) { .si-type-grid { grid-template-columns: 1fr; } }
+.si-type-card { background: #eef0f7; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.si-type-card-inner { padding: 28px 24px; }
+.si-type-bar { height: 4px; background: #e05a00; }
+.si-type-name { font-family: 'Noto Serif KR', serif; font-size: 1.15rem; font-weight: 900; margin: 18px 0 16px; color: #1a1a2e; }
+.si-type-row { margin-bottom: 14px; }
+.si-type-label { display: block; font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 3px; }
+.si-type-val { font-size: 13px; color: #2c2520; }
+.si-type-card.si-type-important { background: #1a2035; }
+.si-type-card.si-type-important .si-type-bar { background: #e05a00; }
+.si-type-card.si-type-important .si-type-name { color: #fff; }
+.si-type-card.si-type-important .si-type-label { color: #f5c842; }
+.si-type-card.si-type-important .si-type-val { color: #cdd5e0; }
+.si-type-badge { display: inline-block; background: #e05a00; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 3px 8px; border-radius: 4px; margin: 18px 24px 0; }
+.si-type-footer { background: #1a2035; color: #fff; text-align: center; padding: 14px 20px; border-radius: 10px; font-size: 13px; font-weight: 700; margin-top: 4px; }
+
+.si-pressure-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 12px; }
+@media (max-width: 900px) { .si-pressure-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .si-pressure-grid { grid-template-columns: 1fr; } }
+.si-pressure-card { background: #eef0f7; border-radius: 10px; padding: 20px 18px; }
+.si-pressure-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 2px 8px; border-radius: 20px; margin-bottom: 12px; color: #fff; background: #b0b8c8; }
+.si-pressure-card.si-pressure-explore .si-pressure-tag { background: #b0b8c8; color: #1a2035; }
+.si-pressure-card.si-pressure-1 .si-pressure-tag { background: #e08030; }
+.si-pressure-card.si-pressure-2 .si-pressure-tag { background: #d04040; }
+.si-pressure-card.si-pressure-3 .si-pressure-tag { background: #8b1a1a; }
+.si-pressure-q { font-size: 13.5px; font-weight: 700; color: #1a2035; line-height: 1.6; margin-bottom: 20px; }
+.si-pressure-a { font-size: 12.5px; color: #3a4060; line-height: 1.7; border-top: 1px solid #d0d5e0; padding-top: 12px; }
+.si-pressure-a-label { font-weight: 700; color: #059669; margin-right: 4px; }
+.si-pressure-footer { background: #1a2035; color: #fff; text-align: center; padding: 14px 20px; border-radius: 10px; font-size: 12.5px; margin-top: 4px; line-height: 1.6; }
+
+.si-culture-list { display: flex; flex-direction: column; gap: 12px; }
+.si-culture-item { display: grid; grid-template-columns: 1fr auto; gap: 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px 24px; box-shadow: var(--shadow); }
+@media (max-width: 700px) { .si-culture-item { grid-template-columns: 1fr; } }
+.si-culture-q { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+.si-culture-q-label { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #e05a00; color: #fff; font-weight: 800; font-size: 13px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; }
+.si-culture-q strong { font-size: 15px; font-weight: 800; color: #1a1a2e; line-height: 1.4; }
+.si-culture-tags { font-size: 11.5px; color: #888; margin: 4px 0 10px 34px; }
+.si-culture-good { font-size: 12.5px; color: #2c2520; margin-left: 34px; line-height: 1.6; }
+.si-good-label { font-size: 10.5px; font-weight: 800; color: #059669; letter-spacing: .06em; margin-right: 6px; }
+.si-culture-right { min-width: 260px; max-width: 300px; }
+.si-bad-label { font-size: 10.5px; font-weight: 800; color: #dc2626; letter-spacing: .06em; margin-bottom: 6px; }
+.si-culture-bad-text { font-size: 12.5px; color: #666; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -1020,6 +1065,124 @@ h3 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; m
             <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">오늘 면접을 통해 삼성전자 공정기술 직무에 대해 더 깊이 고민해볼 수 있었고, 제가 왜 이 직무를 하고 싶은지 다시 한번 확신할 수 있었습니다. 저는 단순히 주어진 일을 수행하는 사람이 아니라, 데이터를 기반으로 문제를 개선하고 끝까지 해결하는 엔지니어가 되고 싶습니다. 기회를 주신다면 빠르게 배우고 꾸준히 성장하며 팀에 기여하는 구성원이 되겠습니다. 감사합니다.</div></div>
           </div>
 
+        </div>
+      </div>
+    </div>
+
+    <!-- 삼성 면접 3가지 유형 -->
+    <div class="si-section">
+      <div class="si-section-title">삼성 면접 3가지 유형</div>
+      <div class="si-section-sub">GSAT 이후 면접은 다음 3가지로 구성. 순서·시행 여부는 계열사·사업부마다 다릅니다.</div>
+      <div class="si-type-grid">
+        <div class="si-type-card">
+          <div class="si-type-bar"></div>
+          <div class="si-type-card-inner">
+            <div class="si-type-name">창의성 면접</div>
+            <div class="si-type-row"><span class="si-type-label">주요 평가 포인트</span><span class="si-type-val">문제 해결력 · 아이디어 도출</span></div>
+            <div class="si-type-row"><span class="si-type-label">준비 전략</span><span class="si-type-val">상식적 수준의 참신한 아이디어 준비</span></div>
+            <div class="si-type-row"><span class="si-type-label">비고</span><span class="si-type-val">일부 계열사 · 사업부만 시행</span></div>
+          </div>
+        </div>
+        <div class="si-type-card">
+          <div class="si-type-bar"></div>
+          <div class="si-type-card-inner">
+            <div class="si-type-name">직무 (PT) 면접</div>
+            <div class="si-type-row"><span class="si-type-label">주요 평가 포인트</span><span class="si-type-val">직무 전공 지식 · 논리력</span></div>
+            <div class="si-type-row"><span class="si-type-label">준비 전략</span><span class="si-type-val">문제 정의 → 원인 → 해결 → 효과 구조로 발표</span></div>
+            <div class="si-type-row"><span class="si-type-label">비고</span><span class="si-type-val">전 계열사 공통</span></div>
+          </div>
+        </div>
+        <div class="si-type-card si-type-important">
+          <div class="si-type-bar"></div>
+          <div class="si-type-badge">MOST IMPORTANT</div>
+          <div class="si-type-card-inner">
+            <div class="si-type-name">임원 (인성) 면접</div>
+            <div class="si-type-row"><span class="si-type-label">주요 평가 포인트</span><span class="si-type-val">인재상 부합 · 성장 의지 · 인성</span></div>
+            <div class="si-type-row"><span class="si-type-label">준비 전략</span><span class="si-type-val">자소서 기반 스토리 &amp; 삼성 인재상 연계</span></div>
+            <div class="si-type-row"><span class="si-type-label">비고</span><span class="si-type-val">전 계열사 공통 · 합/불 가중치 최상</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="si-type-footer">세 유형은 동등하게 진행되지만, 합불의 무게는 임원 면접에 가장 크게 실립니다.</div>
+    </div>
+
+    <!-- 임원면접 압박 꼬리질문 -->
+    <div class="si-section">
+      <div class="si-section-title">임원면접 압박 꼬리질문 — 지원자 B 합격 사례</div>
+      <div class="si-section-sub">반도체 공정 직무 / 최종면접 합격 / 다회 도전 끝 합격</div>
+      <div class="si-pressure-grid">
+        <div class="si-pressure-card si-pressure-explore">
+          <div class="si-pressure-tag">탐색</div>
+          <div class="si-pressure-q">Q. 인성검사 보니까 혼자 일하는 거 좋아한다는데, 지금은 어떠냐?</div>
+          <div class="si-pressure-a"><span class="si-pressure-a-label">A.</span> 혼자 하는 걸 선호했지만, 현재 기관에서 혼자 할 수 있는 일이 없다는 걸 알게 되어 함께 일하는 걸 선호합니다.</div>
+        </div>
+        <div class="si-pressure-card si-pressure-1">
+          <div class="si-pressure-tag">압박 1</div>
+          <div class="si-pressure-q">Q. 남을 배려하는 건 결국 본인 업무를 잘 못하는 거 아닌가요?</div>
+          <div class="si-pressure-a"><span class="si-pressure-a-label">A.</span> 실제 업무는 협업으로 성과를 냅니다. 주 담당 업무 외에도 동료 업무를 백업하고 있습니다.</div>
+        </div>
+        <div class="si-pressure-card si-pressure-2">
+          <div class="si-pressure-tag">압박 2</div>
+          <div class="si-pressure-q">Q. 결국 본인 업무는 도외시하고 남의 일만 도와주는 거 아닌가요?</div>
+          <div class="si-pressure-a"><span class="si-pressure-a-label">A.</span> 저의 업무가 우선이고, 그 이후 백업 가능한 경우에만 진행합니다.</div>
+        </div>
+        <div class="si-pressure-card si-pressure-3">
+          <div class="si-pressure-tag">압박 3</div>
+          <div class="si-pressure-q">Q. 업무가 엄청 과중되면 어떻게 하세요?</div>
+          <div class="si-pressure-a"><span class="si-pressure-a-label">A.</span> 중요도·긴급도로 우선순위를 두지만, 선임이 먼저 요청한 업무를 수행합니다.</div>
+        </div>
+      </div>
+      <div class="si-pressure-footer">핵심: 흔들리지 않고 같은 입장을 유지 + 매번 구체 사례로 보강 → 임원이 "이 친구 답변에 일관성이 있다" 판단</div>
+    </div>
+
+    <!-- 임원이 진짜 보는 것 — 컬처핏 검증 질문 -->
+    <div class="si-section">
+      <div class="si-section-title">임원이 진짜 보는 것 — 컬처핏 검증 질문</div>
+      <div class="si-section-sub">"이 친구가 우리 조직에서 살아남나"를 검증하는 질문들 — 답변 방향이 중요</div>
+      <div class="si-culture-list">
+        <div class="si-culture-item">
+          <div class="si-culture-left">
+            <div class="si-culture-q"><span class="si-culture-q-label">Q</span><strong>막내가 일 많이 하잖아요, 화 안 났어요?</strong></div>
+            <div class="si-culture-tags">주인의식 / 조직 적응</div>
+            <div class="si-culture-good"><span class="si-good-label">GOOD</span>당시엔 수동적이었지만 책 읽고 깨달음. 지금은 반성하고 능동적 태도 학습 중.</div>
+          </div>
+          <div class="si-culture-right">
+            <div class="si-bad-label">BAD</div>
+            <div class="si-culture-bad-text">선배가 너무했다고 생각합니다. / 화났지만 참았습니다.</div>
+          </div>
+        </div>
+        <div class="si-culture-item">
+          <div class="si-culture-left">
+            <div class="si-culture-q"><span class="si-culture-q-label">Q</span><strong>윤리에 위배되는 지시를 받으면 어떻게 할 거예요?</strong></div>
+            <div class="si-culture-tags">위계 적응 / 판단력</div>
+            <div class="si-culture-good"><span class="si-good-label">GOOD</span>일단 하겠습니다. 선배의 관점이 더 정확할 것입니다. 극단적 경우만 상위 보고.</div>
+          </div>
+          <div class="si-culture-right">
+            <div class="si-bad-label">BAD</div>
+            <div class="si-culture-bad-text">거부하고 신고하겠습니다. (조직 부적응으로 읽힘)</div>
+          </div>
+        </div>
+        <div class="si-culture-item">
+          <div class="si-culture-left">
+            <div class="si-culture-q"><span class="si-culture-q-label">Q</span><strong>엔지니어가 본인 런시트를 잘못 진행했어요. 어떻게 할 거예요?</strong></div>
+            <div class="si-culture-tags">갈등 해결 / 소통</div>
+            <div class="si-culture-good"><span class="si-good-label">GOOD</span>선임이 그랬듯 우선 논의·협의. 데이터 로그 확인 후 실수 요인부터 점검.</div>
+          </div>
+          <div class="si-culture-right">
+            <div class="si-bad-label">BAD</div>
+            <div class="si-culture-bad-text">잘못된 부분을 지적하고 다시 진행하라고 요청합니다.</div>
+          </div>
+        </div>
+        <div class="si-culture-item">
+          <div class="si-culture-left">
+            <div class="si-culture-q"><span class="si-culture-q-label">Q</span><strong>삼성에 몇 번 지원했어요?</strong></div>
+            <div class="si-culture-tags">로열티 / 의지</div>
+            <div class="si-culture-good"><span class="si-good-label">GOOD</span>여러 번 지원했습니다. (당당하게 답하고 지원동기로 자연 연결)</div>
+          </div>
+          <div class="si-culture-right">
+            <div class="si-bad-label">BAD</div>
+            <div class="si-culture-bad-text">한 두 번? 잘 기억이... / 솔직히 떨어진 적이 많아서...</div>
+          </div>
         </div>
       </div>
     </div>
