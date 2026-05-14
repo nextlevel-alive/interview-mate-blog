@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK하이닉스 면접 KML 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --paper: #faf8f4;
+  --white: #ffffff;
+  --ink: #1a1612;
+  --border: #e5e0d8;
+  --muted: #7a7065;
+  --dim: #4a4035;
+  --K: #2563eb;
+  --M: #9333ea;
+  --L: #059669;
+  --E: #6b7280;
+  --one: #d97706;
+  --red: #c0392b;
+  --gold: #b8860b;
+  --gold-pale: #fdf8e1;
+  --accent-blue: #1a3a5c;
+  /* SK Brand Colors */
+  --sk-red: #EA002C;
+  --sk-red-dark: #B30022;
+  --sk-orange: #FF7A00;
+  --sk-orange-pale: #FFF1E5;
+  --sk-red-pale: #FFE8EC;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; line-height: 1.7; font-size: 15px; }
+
+/* HEADER - SK Brand */
+.header {
+  background: linear-gradient(135deg, #1a1612 0%, #2a1a18 50%, #1a1612 100%);
+  color: #faf8f4;
+  padding: 44px 40px 36px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--sk-red);
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 320px; height: 100%;
+  background: radial-gradient(circle at 100% 0%, rgba(234, 0, 44, 0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 240px; height: 100%;
+  background: radial-gradient(circle at 0% 100%, rgba(255, 122, 0, 0.10) 0%, transparent 55%);
+  pointer-events: none;
+}
+.header-left { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 18px; }
+.header-brand { display: flex; align-items: center; gap: 14px; }
+.sk-logo { display: inline-flex; align-items: center; gap: 0; }
+.sk-logo-mark {
+  background: var(--sk-red);
+  color: #ffffff;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.04em;
+  padding: 6px 14px 7px;
+  border-radius: 4px;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(234, 0, 44, 0.35);
+}
+.sk-logo-text {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: #faf8f4;
+  letter-spacing: -0.01em;
+  margin-left: 10px;
+}
+.sk-logo-text-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #a09888;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(160, 152, 136, 0.4);
+}
+.header-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--sk-orange);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.header-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: #faf8f4;
+}
+.header-title span { color: var(--sk-red); }
+.header-title em {
+  font-style: normal;
+  background: linear-gradient(180deg, transparent 65%, rgba(234, 0, 44, 0.3) 65%);
+  padding: 0 4px;
+}
+.header-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #a09888;
+  text-align: right;
+  line-height: 2;
+  position: relative;
+  z-index: 2;
+}
+.header-meta strong { color: #ffffff; }
+.header-meta-divider {
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--sk-red);
+  margin: 8px 0;
+  vertical-align: middle;
+}
+
+/* TABS */
+.tabs {
+  display: flex; padding: 0 40px; background: #ffffff;
+  border-bottom: 2px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.tab-btn {
+  padding: 16px 24px; font-size: 13px; font-weight: 500;
+  font-family: 'Noto Sans KR', sans-serif; background: none; border: none;
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.tab-btn.active { color: var(--sk-red); border-bottom-color: var(--sk-red); font-weight: 700; }
+.tab-btn:hover:not(.active) { color: var(--dim); }
+
+.main { max-width: 1000px; margin: 0 auto; padding: 36px 40px 80px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.section-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+
+/* KPI */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+@media (max-width: 700px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+.kpi { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 18px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.kpi-K::before { background: var(--K); }
+.kpi-M::before { background: var(--M); }
+.kpi-L::before { background: var(--L); }
+.kpi-E::before { background: var(--E); }
+.kpi-key { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; margin-bottom: 14px; font-weight: 600; }
+.kpi-K .kpi-key { color: var(--K); }
+.kpi-M .kpi-key { color: var(--M); }
+.kpi-L .kpi-key { color: var(--L); }
+.kpi-E .kpi-key { color: var(--E); }
+.kpi-pct { font-size: 36px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 6px; font-family: 'Noto Sans KR', sans-serif; }
+.kpi-K .kpi-pct { color: var(--K); }
+.kpi-M .kpi-pct { color: var(--M); }
+.kpi-L .kpi-pct { color: var(--L); }
+.kpi-E .kpi-pct { color: var(--E); }
+.kpi-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.02em; }
+.kpi-num strong { font-weight: 700; color: var(--dim); }
+.kpi-label { font-size: 11px; color: var(--muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+/* STACKED BAR */
+.stacked-wrap { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px 26px; margin-bottom: 24px; box-shadow: var(--shadow); }
+.stacked-bar { display: flex; height: 32px; border-radius: 8px; overflow: hidden; gap: 2px; margin-bottom: 14px; }
+.seg { display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.9); overflow: hidden; white-space: nowrap; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.leg-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--dim); }
+.leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+@media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+.card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px 24px; box-shadow: var(--shadow); }
+.card-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+
+/* HBAR */
+.hbar-list { display: flex; flex-direction: column; gap: 14px; }
+.hbar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+.hbar-label { font-size: 13px; color: var(--dim); font-weight: 500; }
+.hbar-track { background: #f0ebe4; border-radius: 100px; height: 7px; }
+.hbar-fill { height: 7px; border-radius: 100px; }
+
+.insight { margin-top: 20px; padding: 14px 16px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; }
+.insight-title { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--K); letter-spacing: 0.15em; margin-bottom: 5px; text-transform: uppercase; }
+.insight p { font-size: 13px; color: #1d4ed8; line-height: 1.7; }
+
+.chart-wrap { position: relative; height: 240px; }
+
+/* ── PROCESS SECTION (전체 개요 상단) ── */
+.process-wrap { margin-bottom: 32px; }
+.process-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.process-title { font-family: 'Noto Sans KR', sans-serif; font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+.process-title-mono { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+.process-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+
+/* Flow diagram */
+.flow-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px 24px 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.flow-steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr; gap: 6px; align-items: stretch; }
+@media (max-width: 980px) {
+  .flow-steps { grid-template-columns: 1fr; gap: 8px; }
+  .flow-arrow { transform: rotate(90deg); justify-self: center; padding: 4px 0; opacity: 0.5; }
+}
+.flow-step { background: var(--paper); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 10px 12px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 96px; }
+.flow-step-num { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 6px; }
+.flow-step-name { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 4px; letter-spacing: -0.01em; }
+.flow-step-sub { font-size: 10px; color: var(--muted); line-height: 1.4; }
+.flow-step-split { background: var(--paper); border: 1.5px solid var(--border); border-radius: 10px; padding: 7px; display: flex; flex-direction: column; gap: 4px; min-height: 96px; justify-content: center; }
+.flow-step-split-item { background: var(--white); border: 1px solid var(--border); border-radius: 7px; padding: 7px 7px; }
+.flow-step-split-item .flow-step-name { font-size: 11.5px; margin-bottom: 2px; }
+.flow-step-split-item .flow-step-sub { font-size: 9.5px; }
+.flow-step-final { background: linear-gradient(135deg, #1a1612 0%, #2a1818 100%); border-color: #1a1612; position: relative; }
+.flow-step-final::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--sk-red); border-radius: 10px 10px 0 0; }
+.flow-step-final .flow-step-num { color: var(--sk-orange); }
+.flow-step-final .flow-step-name { color: #ffffff; }
+.flow-step-final .flow-step-sub { color: #a09888; }
+.flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--sk-red); font-size: 18px; font-weight: 700; user-select: none; opacity: 0.5; }
+
+/* One-day callout */
+.oneday-callout { background: var(--sk-orange-pale); border: 1px solid #FFCC99; border-left: 3px solid var(--sk-orange); border-radius: 8px; padding: 14px 18px; margin-top: 14px; display: flex; gap: 14px; align-items: flex-start; }
+.oneday-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; color: var(--sk-red); letter-spacing: 0.12em; padding: 3px 8px; background: #fff; border: 1px solid #FFCC99; border-radius: 4px; flex-shrink: 0; margin-top: 1px; }
+.oneday-text { font-size: 12.5px; color: #6b3a00; line-height: 1.65; }
+.oneday-text strong { color: var(--sk-red-dark); font-weight: 700; }
+
+/* Detail cards 2-column */
+.process-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 760px) { .process-detail-grid { grid-template-columns: 1fr; } }
+.process-detail-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 22px; box-shadow: var(--shadow); }
+.process-detail-card.detail-culture { border-top: 3px solid var(--M); }
+.process-detail-card.detail-job { border-top: 3px solid var(--K); }
+.detail-card-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; margin-bottom: 8px; text-transform: uppercase; }
+.detail-culture .detail-card-tag { color: var(--M); }
+.detail-job .detail-card-tag { color: var(--K); }
+.detail-card-title { font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.02em; }
+.detail-card-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.detail-card-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; color: var(--dim); line-height: 1.6; }
+.detail-card-item::before { content: '·'; color: var(--muted); flex-shrink: 0; font-weight: 700; }
+.detail-card-item strong { color: var(--ink); font-weight: 600; }
+
+/* Stage table - AI 인터뷰 & 공통/특수 비교 */
+.process-summary { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.summary-title { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+.summary-row { display: grid; grid-template-columns: 100px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px dashed var(--border); align-items: start; }
+.summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+.summary-row:first-of-type { padding-top: 0; }
+.summary-key { font-size: 12px; font-weight: 700; color: var(--ink); }
+.summary-key-sub { display: block; font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--muted); margin-top: 2px; letter-spacing: 0.05em; font-weight: 400; }
+.summary-val { font-size: 12.5px; color: var(--dim); line-height: 1.65; }
+.summary-val strong { color: var(--ink); font-weight: 600; }
+.summary-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-right: 5px; }
+.pill-K { background: #dbeafe; color: #1d4ed8; }
+.pill-M { background: #f3e8ff; color: #7e22ce; }
+.pill-time { background: #f1f5f9; color: #475569; }
+
+/* Section divider */
+.section-divider { height: 1px; background: var(--border); margin: 36px 0 28px; position: relative; }
+.section-divider::before { content: attr(data-label); position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: var(--paper); padding: 0 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* Stage badges - 계열사 공통 vs 하이닉스 특수 */
+.stage-badge { display: inline-flex; align-items: center; font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.08em; text-transform: uppercase; vertical-align: middle; }
+.badge-common { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.badge-hynix { background: var(--sk-red-pale); color: var(--sk-red-dark); border: 1px solid #FFB8C4; }
+.flow-step-badge { position: absolute; top: 6px; right: 6px; font-family: 'DM Mono', monospace; font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 2px; letter-spacing: 0.06em; }
+.flow-step-badge.fb-common { background: rgba(71, 85, 105, 0.1); color: #475569; }
+.flow-step-badge.fb-hynix { background: var(--sk-red); color: #fff; }
+.flow-step.has-badge { position: relative; }
+.flow-step-split.has-badge { position: relative; }
+
+/* Hynix-special inline marker */
+.hynix-marker { display: inline-flex; align-items: center; gap: 4px; background: var(--sk-red-pale); color: var(--sk-red-dark); padding: 1px 7px 2px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; margin: 0 3px; border: 1px solid #FFB8C4; }
+.hynix-marker::before { content: '◆'; font-size: 7px; }
+
+/* Hynix special callout (One-day 대체) */
+.hynix-special { background: linear-gradient(135deg, #FFF7F9 0%, #FFEEF1 100%); border: 1px solid #FFB8C4; border-left: 3px solid var(--sk-red); border-radius: 8px; padding: 16px 18px; margin-top: 14px; display: flex; gap: 14px; align-items: flex-start; }
+.hynix-special-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; color: #fff; background: var(--sk-red); letter-spacing: 0.12em; padding: 4px 9px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; box-shadow: 0 1px 3px rgba(234, 0, 44, 0.25); }
+.hynix-special-text { font-size: 12.5px; color: #4a1a22; line-height: 1.7; }
+.hynix-special-text strong { color: var(--sk-red-dark); font-weight: 700; }
+.hynix-special-title { display: block; font-weight: 700; color: var(--sk-red-dark); margin-bottom: 4px; font-size: 13px; letter-spacing: -0.01em; }
+
+/* EXAMPLES TAB */
+.cat-section { margin-bottom: 48px; }
+.cat-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 2px solid var(--border); justify-content: space-between; }
+.cat-header-left { display: flex; align-items: center; gap: 14px; flex: 1; }
+.cat-pct-note { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.05em; background: var(--paper); border: 1px solid var(--border); padding: 5px 10px; border-radius: 4px; white-space: nowrap; }
+.cat-pct-note strong { color: var(--ink); font-weight: 700; }
+.cat-badge { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 6px; letter-spacing: 0.05em; }
+.badge-K { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-M { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+.badge-L { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+.cat-name { font-family: 'Noto Sans KR', sans-serif; font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+.cat-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+.cluster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 700px) { .cluster-grid { grid-template-columns: 1fr; } }
+.cluster-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); transition: border-color 0.15s, box-shadow 0.15s; }
+.cluster-card:hover { border-color: #c5bdb4; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.cl-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cl-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+.cl-meta { display: flex; align-items: center; gap: 8px; }
+.cl-pct-pill { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; }
+.pct-K { background: #dbeafe; color: #1d4ed8; }
+.pct-M { background: #f3e8ff; color: #7e22ce; }
+.pct-L { background: #d1fae5; color: #065f46; }
+.cl-bar-track { height: 4px; background: #f0ebe4; border-radius: 100px; margin-bottom: 14px; }
+.cl-bar-fill { height: 4px; border-radius: 100px; }
+.cl-qs { display: flex; flex-direction: column; gap: 6px; }
+.cl-q { display: flex; gap: 8px; align-items: flex-start; }
+.cl-qnum { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); flex-shrink: 0; margin-top: 3px; }
+.cl-qtext { font-size: 12px; color: var(--dim); line-height: 1.65; }
+.rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+.rank-1 { background: #fef3c7; color: #d97706; }
+.rank-2 { background: #f1f5f9; color: #64748b; }
+.rank-3 { background: #fdf4ed; color: #c9855c; }
+.rank-4 { background: #f8f8f8; color: #9ca3af; }
+
+/* ── 합불 탭 ── */
+.si-section { margin-bottom: 48px; }
+.si-section-title { font-family: 'Noto Sans KR', sans-serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; letter-spacing: -0.025em; }
+.si-section-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+.si-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+@media (max-width: 700px) { .si-compare-grid { grid-template-columns: 1fr; } }
+.si-compare-col { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px 26px; box-shadow: var(--shadow); }
+.si-compare-col.si-fail-col { border-top: 3px solid #dc2626; }
+.si-compare-col.si-pass-col { border-top: 3px solid #059669; }
+.si-col-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.si-badge { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 4px; letter-spacing: 0.08em; }
+.si-badge-fail { background: rgba(220,38,38,0.08); color: #dc2626; border: 1px solid rgba(220,38,38,0.2); }
+.si-badge-pass { background: rgba(5,150,105,0.08); color: #059669; border: 1px solid rgba(5,150,105,0.2); }
+.si-col-heading { font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+.si-feature-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.si-feature-item { display: flex; gap: 14px; align-items: flex-start; }
+.si-feature-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+.si-feature-icon.si-fail { background: rgba(220,38,38,0.1); color: #dc2626; }
+.si-feature-icon.si-pass { background: rgba(5,150,105,0.1); color: #059669; }
+.si-feature-text { font-size: 13px; color: var(--dim); line-height: 1.7; }
+.si-feature-text strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 3px; font-size: 13.5px; }
+
+.si-cases { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+@media (max-width: 700px) { .si-cases { grid-template-columns: 1fr; } }
+
+/* Data source note - 케이스 위 코멘트 박스 */
+.data-note { background: var(--paper); border: 1px solid var(--border); border-left: 3px solid var(--sk-orange); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.data-note-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--sk-orange-pale); color: var(--sk-orange); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+.data-note-body { flex: 1; }
+.data-note-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--sk-orange); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+.data-note-text { font-size: 12.5px; color: var(--dim); line-height: 1.7; }
+.data-note-text strong { color: var(--ink); font-weight: 600; }
+.si-case-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.si-case-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.si-case-card.si-fail-card::before { background: linear-gradient(90deg, #dc2626, transparent); }
+.si-case-card.si-pass-card::before { background: linear-gradient(90deg, #059669, transparent); }
+.si-case-company { font-family: 'Noto Sans KR', sans-serif; font-size: 20px; font-weight: 700; margin: 10px 0 4px; letter-spacing: -0.025em; }
+.si-case-role { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.si-ratio-section { background: var(--paper); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 18px; }
+.si-ratio-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; }
+.si-ratio-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.si-ratio-key { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); width: 18px; flex-shrink: 0; }
+.si-ratio-track { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.si-ratio-fill { height: 100%; border-radius: 4px; }
+.si-ratio-pct { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); width: 34px; text-align: right; flex-shrink: 0; }
+.si-points-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+.si-point-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 12.5px; color: var(--dim); line-height: 1.6; }
+.si-point-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+.si-fail-dot { background: #dc2626; }
+.si-pass-dot { background: #059669; }
+.si-reaction { margin-top: 14px; padding: 14px 16px; background: rgba(5,150,105,0.06); border: 1px solid rgba(5,150,105,0.18); border-radius: 8px; font-size: 12.5px; color: #059669; line-height: 1.65; }
+.si-reaction-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; display: block; margin-bottom: 5px; }
+
+/* Transcript */
+.si-tab-wrap { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.si-tab-btn { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--white); color: var(--muted); font-family: 'Noto Sans KR', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow); }
+.si-tab-btn:hover { border-color: #c5bdb4; color: var(--dim); }
+.si-tab-btn.active { background: var(--ink); border-color: var(--ink); color: #faf8f4; }
+.si-tab-btn.active .si-badge-fail { background: rgba(255,100,100,0.2); color: #ff8888; border-color: rgba(255,100,100,0.3); }
+.si-tab-btn.active .si-badge-pass { background: rgba(0,220,150,0.2); color: #00dc96; border-color: rgba(0,220,150,0.3); }
+
+.si-transcript-header { display: flex; justify-content: space-between; align-items: center; padding: 22px 28px; border-radius: 12px 12px 0 0; border: 1.5px solid var(--border); border-bottom: none; }
+.si-fail-header { background: rgba(220,38,38,0.05); border-color: rgba(220,38,38,0.2); }
+.si-pass-header { background: rgba(5,150,105,0.05); border-color: rgba(5,150,105,0.2); }
+.si-transcript-co { font-family: 'Noto Sans KR', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 3px; letter-spacing: -0.02em; }
+.si-transcript-role { font-size: 12px; color: var(--muted); }
+
+.si-qa-list { border: 1.5px solid var(--border); border-radius: 0 0 12px 12px; overflow: hidden; }
+.si-qa-item { padding: 22px 28px; border-bottom: 1px solid var(--border); }
+.si-qa-item:last-child { border-bottom: none; }
+.si-qa-item:hover { background: rgba(0,0,0,0.015); }
+.si-highlight-fail { background: rgba(220,38,38,0.03) !important; }
+.si-highlight-pass { background: rgba(5,150,105,0.03) !important; }
+.si-q-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.si-q-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: var(--muted); background: var(--paper); border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+.si-q-text { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.6; }
+.si-q-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 3px; letter-spacing: 0.04em; }
+.si-m-tag { background: rgba(147,51,234,0.1); color: #7c3aed; border: 1px solid rgba(147,51,234,0.2); }
+.si-k-tag { background: rgba(184,134,11,0.1); color: var(--gold); border: 1px solid rgba(184,134,11,0.2); }
+.si-l-tag { background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.2); }
+.si-e-tag { background: rgba(107,114,128,0.1); color: #6b7280; border: 1px solid rgba(107,114,128,0.2); }
+.si-a-row { display: flex; gap: 12px; align-items: flex-start; }
+.si-a-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+.si-a-fail { color: #dc2626; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.2); }
+.si-a-pass { color: #059669; background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.2); }
+.si-a-text { font-size: 13px; color: var(--dim); line-height: 1.8; flex: 1; }
+.si-analysis { margin-top: 12px; margin-left: 38px; padding: 10px 14px; border-radius: 7px; font-size: 12.5px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+.si-analysis-fail { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.15); color: #b91c1c; }
+.si-analysis-pass { background: rgba(5,150,105,0.06); border: 1px solid rgba(5,150,105,0.15); color: #047857; }
+
+.si-insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 700px) { .si-insight-grid { grid-template-columns: 1fr; } }
+.si-insight-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 28px 24px; box-shadow: var(--shadow); }
+.si-insight-num { font-family: 'DM Mono', monospace; font-size: 28px; color: var(--sk-red); font-weight: 700; margin-bottom: 12px; line-height: 1; }
+.si-insight-title { font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; }
+.si-insight-desc { font-size: 12.5px; color: var(--muted); line-height: 1.8; }
+
+.footer { text-align: center; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 40px; padding-bottom: 40px; letter-spacing: 0.05em; line-height: 1.8; }
+.footer-brand { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.footer-brand-mark { background: var(--sk-red); color: #fff; font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-size: 11px; padding: 3px 7px; border-radius: 3px; letter-spacing: -0.02em; }
+
+@media (max-width: 600px) {
+  .header { padding: 28px 20px 24px; }
+  .header-title { font-size: 22px; }
+  .header-meta { text-align: left; }
+  .sk-logo-mark { font-size: 18px; padding: 5px 11px; }
+  .sk-logo-text { font-size: 15px; }
+  .sk-logo-text-sub { display: none; }
+  .tabs { padding: 0 12px; overflow-x: auto; }
+  .main { padding: 24px 20px 60px; }
+  .tab-btn { padding: 14px 12px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-brand">
+      <div class="sk-logo">
+        <span class="sk-logo-mark">SK</span>
+      </div>
+      <span class="sk-logo-text-sub">Interview Analytics</span>
+    </div>
+    <div>
+      <div class="header-label">Interview Analytics</div>
+      <div class="header-title"><em>면접질문</em> <span>KML</span> 분류 분석</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <strong>총 285개</strong> 질문 분석
+    <div class="header-meta-divider"></div>
+    직무역량(K) · 인성관점(M) · 로열티(L)<br>
+    기타(E) · 1분자기소개
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('overview', this)">전체 개요</button>
+  <button class="tab-btn" onclick="switchTab('examples', this)">대표 질문 Top 4</button>
+  <button class="tab-btn" onclick="switchTab('sk', this)">SK 면접 합불 특징</button>
+</div>
+
+<div class="main">
+
+  <!-- ── 전체 개요 ── -->
+  <div class="tab-content active" id="tab-overview">
+
+    <!-- ✦ SK하이닉스 채용 프로세스 (NEW) ✦ -->
+    <div class="process-wrap">
+      <div class="process-header">
+        <div>
+          <div class="process-title-mono">// RECRUITMENT PROCESS</div>
+          <div class="process-title">SK 채용 프로세스</div>
+        </div>
+        <div class="process-source">SOURCE · SK careers 공식</div>
+      </div>
+
+      <!-- 인트로 -->
+      <div style="background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 18px 22px; margin-bottom: 16px; box-shadow: var(--shadow);">
+        <p style="font-size: 13px; color: var(--dim); line-height: 1.75;">
+          SK 면접은 주로 <strong>1차 실무/직무 면접(구조화 면접)</strong>과 <strong>2차 문화/인성 면접</strong>으로 구성되며, 약 <strong>30분간 다대일(면접관 3~4명 : 지원자 1명)</strong> 형태로 진행됩니다. SK하이닉스 등 일부 계열사는 <strong>AI 기반 비대면 영상 인터뷰</strong>를 통해 커뮤니케이션, 팀워크 등을 1차적으로 평가합니다.
+        </p>
+        <div style="display: flex; gap: 14px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border); flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted);">
+            <span class="stage-badge badge-common">SK 공통</span>
+            <span>전 계열사 공통 단계</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted);">
+            <span class="stage-badge badge-hynix">◆ HYNIX</span>
+            <span>SK하이닉스 특수 요소</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5단계 플로우 -->
+      <div class="flow-card">
+        <div class="flow-steps">
+          <div class="flow-step has-badge">
+            <span class="flow-step-badge fb-common">SK 공통</span>
+            <div class="flow-step-num">STEP 01</div>
+            <div class="flow-step-name">서류 전형</div>
+            <div class="flow-step-sub">자기소개서 + 지원자격</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step-split has-badge">
+            <span class="flow-step-badge fb-common" style="top: 4px; right: 4px;">SK 공통</span>
+            <div class="flow-step-split-item">
+              <div class="flow-step-name">SKCT</div>
+              <div class="flow-step-sub">종합역량검사</div>
+            </div>
+            <div class="flow-step-split-item" style="border-color: #FFB8C4; background: var(--sk-red-pale);">
+              <div class="flow-step-name" style="color: var(--sk-red-dark);">A!SK <span style="font-family: 'DM Mono', monospace; font-size: 8px; background: var(--sk-red); color: #fff; padding: 1px 4px; border-radius: 2px; vertical-align: middle; margin-left: 3px;">HYNIX</span></div>
+              <div class="flow-step-sub" style="color: #6b3a45;">AI 비대면 인터뷰</div>
+            </div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step has-badge">
+            <span class="flow-step-badge fb-common">SK 공통</span>
+            <div class="flow-step-num">STEP 03</div>
+            <div class="flow-step-name">1차 직무 면접</div>
+            <div class="flow-step-sub">실무·구조화 면접(BEI)</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step has-badge">
+            <span class="flow-step-badge fb-common">SK 공통</span>
+            <div class="flow-step-num">STEP 04</div>
+            <div class="flow-step-name">2차 문화/인성</div>
+            <div class="flow-step-sub">컬처핏·가치관 검증</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step flow-step-final">
+            <div class="flow-step-num">FINAL</div>
+            <div class="flow-step-name">최종 합격</div>
+            <div class="flow-step-sub">종합 평가 후 발표</div>
+          </div>
+        </div>
+
+        <!-- 하이닉스 특수성 강조 -->
+        <div class="hynix-special">
+          <div class="hynix-special-tag">◆ HYNIX</div>
+          <div class="hynix-special-text">
+            <span class="hynix-special-title">SK하이닉스만의 차이: 원데이(One-Day) 방식</span>
+            대부분 SK 계열사가 1차 직무 면접과 2차 문화/인성 면접을 <strong>별도 일정</strong>으로 진행하는 반면, SK하이닉스는 <strong>동일 일자에 두 면접을 모두 진행</strong>합니다. 또한 SK 그룹 공통의 SKCT에 더해 <strong>A!SK(AI 비대면 영상 인터뷰)</strong>를 활용해 커뮤니케이션·팀워크 등 소프트 스킬을 사전 검증하는 점도 하이닉스의 차별 요소입니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- 단계별 상세 -->
+      <div class="process-summary">
+        <div class="summary-title">// STAGE BREAKDOWN</div>
+
+        <div class="summary-row">
+          <div class="summary-key">서류 전형 <span class="stage-badge badge-common" style="margin-top:4px;">SK 공통</span><span class="summary-key-sub">STEP 01</span></div>
+          <div class="summary-val">
+            자기소개서와 지원 자격 요건을 기준으로 1차 선별. SK careers 채용 사이트를 통해 접수.
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-key">SKCT <span class="stage-badge badge-common" style="margin-top:4px;">SK 공통</span><span class="summary-key-sub">STEP 02</span></div>
+          <div class="summary-val">
+            <strong>SK 종합역량검사</strong>. SK 그룹사 공통 인적성 검사로, 인지역량(언어·수리·추리)과 심층역량(직무 적합성·인성)을 평가.
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-key">A!SK <span class="stage-badge badge-hynix" style="margin-top:4px;">◆ HYNIX</span><span class="summary-key-sub">SK하이닉스 특수</span></div>
+          <div class="summary-val">
+            <strong>AI 기반 비대면 영상 인터뷰</strong>로, 커뮤니케이션·팀워크 등 Soft Skill과 Hard Skill을 검증하는 <strong>총 7문항</strong>으로 구성.<br>
+            <span class="summary-pill pill-M">Part 1 · 기본</span> 1분 소개 / 나의 경험 / 팀워크 — <span class="summary-pill pill-time">각 1분</span><br>
+            <span class="summary-pill pill-K">Part 2 · 직무</span> 직무 지식 4문항 — <span class="summary-pill pill-time">문항당 3분</span><br>
+            <span style="font-size: 11.5px; color: var(--muted);">※ 모든 문항 준비 시간 60초 동일, 답변은 최소 30초 이상.</span>
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-key">1차 직무 면접 <span class="stage-badge badge-common" style="margin-top:4px;">SK 공통</span><span class="summary-key-sub">STEP 03</span></div>
+          <div class="summary-val">
+            실무 역량·기술 질문 중심의 <strong>경험 기반 구조화 면접(BEI)</strong>. <strong>다대일 형태(면접관 3~4명 : 지원자 1명), 약 30분 내외</strong>로 운영되며, 자소서·경력기술서에 기재한 프로젝트의 꼬리 질문이 다수.
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-key">2차 문화/인성 <span class="stage-badge badge-common" style="margin-top:4px;">SK 공통</span><span class="summary-key-sub">STEP 04</span></div>
+          <div class="summary-val">
+            SK <strong>경영철학(SKMS) 및 일하는 방식(VWBE)</strong>, 행복 추구 문화와의 적합성을 검증. 가치관·태도·지원 동기 등 인성 영역 중심.<br>
+            <span style="font-size: 11.5px; color: var(--sk-red-dark); font-weight: 600;">◆ SK하이닉스</span> <span style="font-size: 11.5px; color: var(--muted);">— 1차·2차 면접을 같은 날 진행하는 <strong>원데이(One-Day)</strong> 방식 운영.</span>
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-key">최종 합격 <span class="stage-badge badge-common" style="margin-top:4px;">SK 공통</span><span class="summary-key-sub">FINAL</span></div>
+          <div class="summary-val">
+            전 단계 평가 결과를 종합해 최종 합격자 발표. 신체검사 및 처우협의 단계를 거쳐 입사.
+          </div>
+        </div>
+      </div>
+
+      <!-- 면접 2종 상세 -->
+      <div class="process-detail-grid">
+        <div class="process-detail-card detail-job">
+          <div class="detail-card-tag">K · JOB FIT — 1차 면접</div>
+          <div class="detail-card-title">직무/실무 면접</div>
+          <ul class="detail-card-list">
+            <li class="detail-card-item"><strong>전공 지식·프로젝트 경험·기술 역량</strong>을 심층 검증</li>
+            <li class="detail-card-item">경험 기반 구조화 면접 <strong>(BEI)</strong> 방식이 핵심</li>
+            <li class="detail-card-item">자소서·경력기술서에 기재한 프로젝트의 <strong>꼬리 질문</strong> 다수</li>
+            <li class="detail-card-item">계열사별 직무 특화 질문 (반도체·통신·에너지·바이오 등)</li>
+          </ul>
+        </div>
+        <div class="process-detail-card detail-culture">
+          <div class="detail-card-tag">M · CULTURE FIT — 2차 면접</div>
+          <div class="detail-card-title">문화/인성 면접</div>
+          <ul class="detail-card-list">
+            <li class="detail-card-item">SK <strong>경영철학(SKMS)·일하는 방식(VWBE)</strong> 적합도 검증</li>
+            <li class="detail-card-item"><strong>행복 추구 문화</strong> 기반의 가치관·태도 질문</li>
+            <li class="detail-card-item">지원 동기·계열사 이해도 등 로열티 영역</li>
+            <li class="detail-card-item">상황 제시형(가치관 기반 판단) 질문이 자주 등장</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider" data-label="KML Framework Analysis"></div>
+
+    <div class="kpi-row">
+      <div class="kpi kpi-K">
+        <div class="kpi-key">K · 직무역량</div>
+        <div class="kpi-pct">38.6%</div>
+        <div class="kpi-num"><strong>110</strong> / 285개</div>
+        <div class="kpi-label">역량·기술·경험</div>
+      </div>
+      <div class="kpi kpi-M">
+        <div class="kpi-key">M · 인성/관점</div>
+        <div class="kpi-pct">31.9%</div>
+        <div class="kpi-num"><strong>91</strong> / 285개</div>
+        <div class="kpi-label">관점·태도·컬처핏</div>
+      </div>
+      <div class="kpi kpi-L">
+        <div class="kpi-key">L · 로열티</div>
+        <div class="kpi-pct">19.3%</div>
+        <div class="kpi-num"><strong>55</strong> / 285개</div>
+        <div class="kpi-label">지원동기·충성도</div>
+      </div>
+      <div class="kpi kpi-E">
+        <div class="kpi-key">E · 기타</div>
+        <div class="kpi-pct">10.2%</div>
+        <div class="kpi-num"><strong>29</strong> / 285개</div>
+        <div class="kpi-label">아이스브레이킹·자기소개 등</div>
+      </div>
+    </div>
+
+    <div class="stacked-wrap">
+      <div class="section-label">전체 비중 분포</div>
+      <div class="stacked-bar">
+        <div class="seg" style="width:38.6%;background:var(--K)">K 38.6%</div>
+        <div class="seg" style="width:31.9%;background:var(--M)">M 31.9%</div>
+        <div class="seg" style="width:19.3%;background:var(--L)">L 19.3%</div>
+        <div class="seg" style="width:10.2%;background:var(--E)">E 10.2%</div>
+      </div>
+      <div class="legend-row">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--K)"></div>K 직무역량 38.6%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--M)"></div>M 인성/관점 31.9%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--L)"></div>L 로열티 19.3%</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--E)"></div>E 기타 10.2%</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">카테고리 비교</div>
+        <div class="hbar-list">
+          <div>
+            <div class="hbar-top"><span class="hbar-label">K 직무역량</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:100%;background:var(--K)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">M 인성/관점</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:82.7%;background:var(--M)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">L 로열티</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:50.0%;background:var(--L)"></div></div>
+          </div>
+          <div>
+            <div class="hbar-top"><span class="hbar-label">E 기타</span></div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:26.4%;background:var(--E)"></div></div>
+          </div>
+        </div>
+        <div class="insight">
+          <div class="insight-title">// INSIGHT</div>
+          <p><strong>K(직무역량)이 38.6%로 1위</strong>입니다. 삼성전자(M 1위)와 달리 SK하이닉스는 <strong>기술·전공 역량을 가장 먼저 검증</strong>합니다. 전공 기술 지식과 프로젝트 경험 준비가 핵심입니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">비중 분포</div>
+        <div class="chart-wrap">
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 대표 질문 Top 4 ── -->
+  <div class="tab-content" id="tab-examples">
+
+    <!-- K -->
+    <div class="cat-section cat-K">
+      <div class="cat-header">
+        <div class="cat-header-left">
+          <span class="cat-badge badge-K">K</span>
+          <div>
+            <div class="cat-name">직무역량</div>
+            <div class="cat-sub">역량·기술·경험 검증 — 전체의 38.6%</div>
+          </div>
+        </div>
+        <div class="cat-pct-note">% 표시 · <strong>카테고리 100%</strong> 기준</div>
+      </div>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-1">01</span><span class="cl-name">전공 / 기술 지식</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-K">14.5%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">DRAM과 NAND Flash의 차이는?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">반도체 8대 공정 중 가장 자신 있는 공정에 대해 설명해보시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">PN접합과 정공이 무엇인가?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-2">02</span><span class="cl-name">직무 역량 / 경험 어필</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-K">9.1%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:62.5%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">지원한 직무 관련해서 공부한 것을 자유롭게 이야기해보세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">프로젝트 경험에 대해 말해보세요.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">본인이 최선을 다해 노력했던 성공 사례를 말해보세요.</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-3">03</span><span class="cl-name">학점 / 학업 관련</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-K">8.2%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:56.3%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">학점이 다른 지원자에 비해 높지 않은데 대학생활을 어떻게 보냈나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">학점이 좋은데 왜 대학원을 가지 않았나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">직무 관련 과목 중 학점이 낮은 과목이 있는데 무슨 이유인가요?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-4">04</span><span class="cl-name">희망 직무 / 부서</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-K">6.4%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:43.8%;background:var(--K)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">일하고 싶은 부서는 어디인가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">가장 관심 있는 공정은 무엇인지?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">해당 직무에 언제부터 관심을 가지게 된 건가요?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M -->
+    <div class="cat-section cat-M">
+      <div class="cat-header">
+        <div class="cat-header-left">
+          <span class="cat-badge badge-M">M</span>
+          <div>
+            <div class="cat-name">인성 / 관점</div>
+            <div class="cat-sub">관점·태도·컬처핏 검증 — 전체의 31.9%</div>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-1">01</span><span class="cl-name">힘들었던 경험 / 극복</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-M">8.8%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">가장 힘들었던 경험은? 어떻게 극복하였는가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">살면서 제일 어려웠던 일과 극복 과정을 이야기해보시오.</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">실패했던 사례에 대해 말해보세요.</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-2">02</span><span class="cl-name">대인관계 / 협업 / 갈등</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-M">8.8%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">협업에서 가장 중요한 것은?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">선배와 트러블이 생긴다면 어떻게 하겠는가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">갈등 상황에서 상대방은 어떻게 생각했고 어떻게 대처했는가?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-3">03</span><span class="cl-name">성격 / 강점 / 장단점</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-M">7.7%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:87.5%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">자신의 강점이 뭐라고 생각하시는지?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">주변 사람들이 본인을 어떻게 평가하는가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">성격을 표현하는 단어 2개를 말한다면?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-4">04</span><span class="cl-name">공백기 / 휴학</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-M">7.7%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:87.5%;background:var(--M)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">한 학기 휴학을 하였는데 휴학 이유와 그 기간에 무엇을 하였나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">졸업 후 공백기간을 어떻게 보냈나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">공백기간이 긴데 어떤 일을 하셨나요?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L -->
+    <div class="cat-section cat-L">
+      <div class="cat-header">
+        <div class="cat-header-left">
+          <span class="cat-badge badge-L">L</span>
+          <div>
+            <div class="cat-name">로열티 / 지원동기</div>
+            <div class="cat-sub">지원동기·회사이해도·충성도 확인 — 전체의 19.3%</div>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-1">01</span><span class="cl-name">SK하이닉스 지원동기</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-L">18.2%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:100%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">왜 하이닉스에 지원했는가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">반도체에 관심을 갖게 된 계기가 뭔가요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">본인이 생각하기에 하이닉스에 꼭 다녀야 하는 이유는?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-2">02</span><span class="cl-name">타사 비교 / 복수 지원</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-L">10.9%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:60%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">왜 삼성 안 가고 여기 오나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">삼성전자에도 지원했는가? 그쪽이 더 낫지 않나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">하이닉스에서 당신을 왜 채용해야 하는지 설득해보세요.</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-3">03</span><span class="cl-name">입사 후 포부 / 희망 직무</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-L">10.9%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:60%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">들어오면 어느 쪽 일을 하고 싶나요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">지원한 직무에서 이루고 싶은 목표는 무엇인가요?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">이천과 청주 공장 중 어디서 일하고 싶어요?</span></div>
+          </div>
+        </div>
+        <div class="cluster-card">
+          <div class="cl-top">
+            <div style="display:flex;align-items:center;gap:8px"><span class="rank-badge rank-4">04</span><span class="cl-name">SK하이닉스 이해도</span></div>
+            <div class="cl-meta"><span class="cl-pct-pill pct-L">10.9%</span></div>
+          </div>
+          <div class="cl-bar-track"><div class="cl-bar-fill" style="width:60%;background:var(--L)"></div></div>
+          <div class="cl-qs">
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">SK하이닉스에 대한 이미지가 어떤가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">SK하이닉스의 리스크는 무엇이라고 생각하는가?</span></div>
+            <div class="cl-q"><span class="cl-qnum">Q.</span><span class="cl-qtext">환율 변화가 SK하이닉스에 미치는 영향과 관리 방안을 설명하세요.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SK 면접 합불 특징 ── -->
+  <div class="tab-content" id="tab-sk">
+
+    <!-- 비교 섹션 -->
+    <div class="si-section">
+      <div class="si-section-title">합격자와 불합격자의 결정적 차이</div>
+      <div class="si-section-sub">SK 실제 면접 데이터를 바탕으로 합격을 가른 핵심 요인을 분석했습니다.</div>
+
+      <div class="si-compare-grid">
+        <div class="si-compare-col si-fail-col">
+          <div class="si-col-header">
+            <span class="si-badge si-badge-fail">✕ 불합격</span>
+            <span class="si-col-heading">이런 패턴이 반복됩니다</span>
+          </div>
+          <ul class="si-feature-list">
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-fail">✕</span>
+              <div class="si-feature-text">
+                <strong>현업 질문에 "모르겠다"로 한계를 시인했다</strong>
+                "아직 현업 경험이 없다 보니 구체적인 수치 기준까지는 잘 모르겠습니다"처럼 직접 한계를 노출해 신뢰를 잃었다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-fail">✕</span>
+              <div class="si-feature-text">
+                <strong>경험을 직무와 연결하지 못했다</strong>
+                알바·팀플 경험을 이야기했지만 영업 직무와 구체적으로 연결짓지 못하고 단순 나열에 그쳤다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-fail">✕</span>
+              <div class="si-feature-text">
+                <strong>자기소개부터 수치·성과가 없었다</strong>
+                "책임감 있다", "소통을 좋아한다"는 추상적 표현으로만 자기소개를 채워 면접관의 K질문을 유도하지 못했다.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="si-compare-col si-pass-col">
+          <div class="si-col-header">
+            <span class="si-badge si-badge-pass">✓ 합격</span>
+            <span class="si-col-heading">이 전략이 통했다</span>
+          </div>
+          <ul class="si-feature-list">
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-pass">✓</span>
+              <div class="si-feature-text">
+                <strong>수치가 담긴 경험을 자기소개에서 먼저 꺼냈다</strong>
+                "순도 25% 향상", "분석 시간 40% 단축"처럼 수치가 담긴 필살기를 자기소개부터 제시해 K질문의 흐름을 만들었다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-pass">✓</span>
+              <div class="si-feature-text">
+                <strong>꼬리 질문에도 일관된 경험으로 대응했다</strong>
+                "단점→구체적 개선 사례", "기술 질문→실전 경험"처럼 어떤 질문이 와도 동일한 핵심경험을 닻으로 연결했다.
+              </div>
+            </li>
+            <li class="si-feature-item">
+              <span class="si-feature-icon si-pass">✓</span>
+              <div class="si-feature-text">
+                <strong>회사 이해도를 구체적 사업 이슈로 입증했다</strong>
+                CEPI 협력, 에볼라 백신, mRNA 플랫폼 등 구체적 사업 이슈를 지원동기에 녹여 피상적 답변과 차별화했다.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 케이스 스터디 -->
+    <div class="si-section">
+      <div class="si-section-title">케이스 스터디</div>
+      <div class="si-section-sub">실제 면접 사례 기반 분석입니다.</div>
+
+      <!-- Data source note -->
+      <div class="data-note">
+        <div class="data-note-icon">i</div>
+        <div class="data-note-body">
+          <div class="data-note-label">// Data Note</div>
+          <div class="data-note-text">
+            SK하이닉스의 합·불 케이스가 별도로 확보되지 않아, <strong>SK 그룹사 전반의 면접 사례</strong>를 기반으로 분석을 진행했습니다. SK 계열사는 <strong>SKMS·VWBE 등 동일한 경영철학과 일하는 방식</strong>을 공유하며, <strong>구조화 면접(BEI) 운영 방식과 합·불 평가 기준이 유사한 패턴</strong>을 보이기 때문에, 타 계열사 케이스의 합격·불합격 결정 요인을 통해 SK하이닉스 면접에서도 적용 가능한 인사이트를 도출할 수 있습니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="si-cases">
+        <div class="si-case-card si-fail-card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span class="si-badge si-badge-fail">✕ 불합격</span>
+          </div>
+          <div class="si-case-company">SK네트웍스</div>
+          <div class="si-case-role">영업마케팅 직무 · 1차면접</div>
+
+          <div class="si-ratio-section">
+            <div class="si-ratio-label">질문 유형 비중</div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">K</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:45%;background:linear-gradient(90deg,#ef4444,#dc2626);"></div></div>
+              <span class="si-ratio-pct">45%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">M</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:28%;background:#9333ea;"></div></div>
+              <span class="si-ratio-pct">27%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">L</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:9%;background:#b8860b;"></div></div>
+              <span class="si-ratio-pct">9%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">E</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:9%;background:#9ca3af;"></div></div>
+              <span class="si-ratio-pct">9%</span>
+            </div>
+          </div>
+
+          <div class="si-points-title">불합격 포인트</div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span>현업 매출 부진 대응 질문에 "느낌으로 보겠다"며 데이터 기준 없는 접근 노출</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span>면접관 추궁에 "수치 기준을 잘 모르겠다"고 직접 한계를 시인</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span>팀플 역할 질문에서 "자료 정리·취합" 보조 역할만 언급, 주도성 부재</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-fail-dot"></span><span>마지막 1분 자기 세일즈 기회에서도 "책임감" 추상적 단어만 반복</span></div>
+        </div>
+
+        <div class="si-case-card si-pass-card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span class="si-badge si-badge-pass">✓ 합격</span>
+          </div>
+          <div class="si-case-company">SK바이오사이언스</div>
+          <div class="si-case-role">DSP 공정 분석 직무 · 최종면접</div>
+
+          <div class="si-ratio-section">
+            <div class="si-ratio-label">질문 유형 비중</div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">K</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:44%;background:#059669;"></div></div>
+              <span class="si-ratio-pct">44%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">L</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:22%;background:var(--K);"></div></div>
+              <span class="si-ratio-pct">22%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">M</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:11%;background:#9333ea;"></div></div>
+              <span class="si-ratio-pct">11%</span>
+            </div>
+            <div class="si-ratio-row">
+              <span class="si-ratio-key">E</span>
+              <div class="si-ratio-track"><div class="si-ratio-fill" style="width:11%;background:#9ca3af;"></div></div>
+              <span class="si-ratio-pct">11%</span>
+            </div>
+          </div>
+
+          <div class="si-points-title">합격 포인트</div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>자기소개부터 "순도 25%↑, 분석 시간 40%↓"로 수치 기반 필살기 제시</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>CEPI·mRNA 등 구체적 사업 이슈로 회사 이해도를 지원동기에 녹여 표현</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>단점 꼬리 질문에 "컬럼 재사용 2배↑" 사례로 단점을 행동으로 입증</span></div>
+          <div class="si-point-item"><span class="si-point-dot si-pass-dot"></span><span>PCR 시험법 설계 기술 질문에 실전 dPCR 경험으로 즉각 대응</span></div>
+
+          <div class="si-reaction">
+            <span class="si-reaction-label">// 합격 핵심 전략</span>
+            자기소개에서 직무와 연결된 필살기를 먼저 꺼냈기 때문에 면접 전반이 K질문(기술·경험) 중심으로 흘렀다. 모든 답변에 수치가 있었고, 어떤 꼬리 질문에도 동일한 경험으로 일관성을 유지했다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 전문 Q&A -->
+    <div class="si-section">
+      <div class="si-section-title">면접 전문 Q&A</div>
+      <div class="si-section-sub">실제 답변 전체와 분석 코멘트입니다.</div>
+
+      <div class="si-tab-wrap">
+        <button class="si-tab-btn active" onclick="switchTranscriptTab('fail', this)">
+          <span class="si-badge si-badge-fail">✕</span> SK네트웍스 불합격
+        </button>
+        <button class="si-tab-btn" onclick="switchTranscriptTab('pass', this)">
+          <span class="si-badge si-badge-pass">✓</span> SK바이오사이언스 합격
+        </button>
+      </div>
+
+      <!-- 불합격 전문 -->
+      <div id="si-tab-fail">
+        <div class="si-transcript-header si-fail-header">
+          <div>
+            <div class="si-transcript-co">SK네트웍스</div>
+            <div class="si-transcript-role">영업마케팅 직무 · 1차면접</div>
+          </div>
+          <span class="si-badge si-badge-fail">✕ 불합격</span>
+        </div>
+        <div class="si-qa-list">
+
+          <div class="si-qa-item si-highlight-fail">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">자기소개 해보세요.</span><span class="si-q-tag si-e-tag">1분자기소개</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"안녕하십니까. 영업마케팅 직무에 지원한 ㅇㅇㅇ입니다.
+저는 사람들과 소통하는 것을 좋아하고, 맡은 일은 끝까지 책임지려고 노력하는 편입니다. 이전에 사무 업무를 하면서 고객 응대와 행정 업무를 함께 진행한 경험이 있고, 프로젝트 활동에서는 팀원들과 협업하며 홍보 업무를 수행했습니다. 특히 다양한 사람들과 이야기하며 의견을 조율했던 경험이 기억에 남습니다. 이러한 경험을 바탕으로 영업 현장에서도 고객과 원활하게 소통하며 회사에 도움이 되는 직원이 되고 싶습니다. 감사합니다."</div></div>
+            <div class="si-analysis si-analysis-fail"><span>✕</span> 구체적 수치·성과 없이 추상적 표현만 나열. 면접관이 K질문을 이어갈 명확한 실마리가 없어 현업 가상 상황 질문으로 전환됨.</div>
+          </div>
+
+          <div class="si-qa-item si-highlight-fail">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">네 잘들었구요. 실제 현업 상황을 가정해서 질문드리겠습니다. 담당 대리점의 월 매출이 기대보다 부진한 상황이라면 어떤 방식으로 대응하실 건가요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"우선 매출이 부진한 원인을 먼저 파악할 것 같습니다. 만약 재고가 많이 쌓인 제품이 있다면 프로모션이나 묶음 판매 전략을 통해 회전율을 높이려고 할 것 같습니다. 또한 고객 반응이 좋은 제품은 대리점 상황에 맞춰 물량 운영이나 프로모션 지원을 함께 고민하며 판매를 확대할 것 같습니다. 단기적으로는 매출 회복이 중요하지만, 장기적으로는 대리점과 신뢰 관계를 유지하면서 함께 성장할 수 있는 방향으로 접근하겠습니다."</div></div>
+            <div class="si-analysis si-analysis-fail"><span>✕</span> 방향은 있으나 구체적 수치 기준·분석 방법론이 없어 면접관이 "느낌적인 접근"이라고 지적하며 재추궁.</div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">프로모션이나 지원을 한다고 해서 무조건 매출이 올라가는 건 아니잖아요. 효과가 없으면 어떻게 하실 건가요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"우선 현장에서 고객 반응이나 대리점 분위기를 보면서 어떤 부분에서 반응이 없는지 파악하려고 할 것 같습니다. 예를 들어 제품 자체의 관심도가 낮은 건지, 프로모션 방식이 안 맞는 건지 보면서 방향을 조정할 것 같습니다."</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">지금 말씀은 조금 느낌적인 접근 같은데요. 실제로 어떤 기준이나 데이터를 보고 판단하실 건가요?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"아... 네 맞습니다. 사실 아직 현업 경험이 없다 보니 구체적인 수치 기준까지는 잘 모르겠습니다. 그래도 판매량이나 고객 반응 같은 데이터를 우선 보려고 할 것 같고, 실제 입사 후에는 선배님들께 배우면서 어떤 지표를 중요하게 보는지 빠르게 익히겠습니다."</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">천안에 계속 거주하고 있는 건가요?</span><span class="si-q-tag si-k-tag">E질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"네 현재 거주중입니다."</div></div>
+          </div>
+          
+          <div class="si-qa-item si-highlight-fail">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">롯데리아 알바로 일할 때 나로 인해 조직이 좋게 바뀐 경험이 있는지?</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"음... 사실 제가 조직 분위기를 바꿨다고까지는 생각 안 해봤는데요... 그냥 바쁠 때 먼저 움직이려고 했던 것 같습니다. 얼마나 도움이 됐는지는 잘 모르겠습니다..."</div></div>
+            <div class="si-analysis si-analysis-fail"><span>✕</span> 질문 의도 파악 실패 + 자기 평가 회피. "잘 모르겠다"로 마무리하며 주도적 기여 사례를 전혀 만들지 못함.</div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">롯데리아 알바를 하면서 무엇을 느꼈는지?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"음... 고객 응대가 중요하다고 느꼈던 것 같습니다. 한 번은 고객분이 패티가 좀 퍽퍽한 스타일의 햄버거를 원하셔서 제가 메뉴 추천을 해드린 적이 있었는데, 드셔보시고 만족해하셨던 기억이 있습니다. 그때 고객분이 좋아하시는 걸 보면서 저도 뿌듯했던 경험이 있습니다..."</div></div>
+          </div>
+          
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">영업하면서 여러 사람들을 만날텐데 다양하고 새로운 사람들을 만나는 게 괜찮은지?</span><span class="si-q-tag si-k-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"네 오히려 다양한 사람들을 만나는 편을 좋아하는 편입니다. 실제로 대외 홍보 프로젝트를 진행했을 때도 학교 관계자분들이나 학생분들과 직접 소통하며 이벤트를 운영했던 경험이 있습니다. 처음 보는 사람들과도 먼저 다가가 이야기하는 데 큰 부담은 없는 편이고, 이런 성향이 영업 직무에도 잘 맞는다고 생각합니다."</div></div>
+          </div>
+          
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">대학교때 경영정보학과 수업에서 가장 즐겁게 들었던 과목은 무엇이고 이유가 뭔지?</span><span class="si-q-tag si-k-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"가장 흥미롭게 들었던 과목은 마케팅 수업이었습니다. 단순히 이론만 배우는 것이 아니라 팀 프로젝트를 통해 직접 타겟 고객이나 홍보 전략을 고민해볼 수 있었기 때문입니다. 특히 팀원들과 아이디어를 나누며 하나의 결과물을 만들어가는 과정이 재미있었고, 사람들과 소통하며 방향을 맞춰가는 부분이 저와 잘 맞는다고 느꼈습니다."</div></div>
+          </div>
+          
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">팀플할 때 무슨 역할을 맡았는지?</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"주로 팀원들이 조사한 자료를 정리하고 전체 방향을 맞추는 역할을 맡았습니다. 각자 준비한 내용이 잘 연결되는지 확인하면서 발표 자료나 과제 결과물을 취합하는 역할을 많이 했던 것 같습니다."</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">마지막으로 1분 동안 본인의 강점을 자유롭게 어필해보세요. 본인을 세일즈한다고 생각하시면 됩니다.</span><span class="si-q-tag si-l-tag">E질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-fail">A</span><div class="si-a-text">"어... 저는 책임감 있게 맡은 일을 끝까지 하려고 하는 강점이 있다고 생각합니다. 이전 직장에서 여러 업무를 동시에 맡았던 적이 있었는데, 그때 주변 직원분들이 일을 꼼꼼하게 잘 처리한다고 말씀해주셨던 기억이 있습니다. 그래서 어떤 업무를 맡더라도 빠르게 배우고 끝까지 해내려고 노력하는 편입니다. 영업 직무에서도 그런 책임감 있는 모습으로 일하고 싶습니다."</div></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 합격 전문 -->
+      <div id="si-tab-pass" style="display:none;">
+        <div class="si-transcript-header si-pass-header">
+          <div>
+            <div class="si-transcript-co">SK바이오사이언스</div>
+            <div class="si-transcript-role">DSP 공정 분석 직무 · 최종면접</div>
+          </div>
+          <span class="si-badge si-badge-pass">✓ 합격</span>
+        </div>
+        <div class="si-qa-list">
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">자기소개 부탁드립니다.</span><span class="si-q-tag si-e-tag">1분자기소개</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">안녕하십니까. SK바이오사이언스 DSP 공정 분석 직무에 지원한 ㅇㅇㅇ입니다. 석사 과정 중 핵산 정제 실험에서 불순물 제거 효율이 낮은 문제가 있었지만, pH와 buffer 조건을 반복적으로 비교 분석하며 공정을 개선했고, 그 결과 순도를 기존 대비 25% 향상시킬 수 있었습니다. 또한 연구실 안전관리자로 활동하며 점검 프로세스를 표준화하고 위험물 관리 체계를 개선해 사고 발생률 0건을 유지한 채 안전 감사도 지적사항 없이 통과했습니다. 이러한 분석력과 꼼꼼함으로 공정 안정화에 기여하겠습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 수치(순도 25%↑, 사고 0건)와 함께 직무 연결 필살기를 자기소개부터 제시. 다음 질문이 바로 K질문으로 연결됨.</div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">왜 SK바이오사이언스에 지원하였나요?</span><span class="si-q-tag si-l-tag">L질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">SK바이오사이언스에 지원한 이유는 단순히 백신을 생산하는 회사를 넘어, 글로벌 감염병 대응 역량을 지속적으로 확대하고 있는 기업이라고 생각했기 때문입니다. 최근 CEPI와 협력해 에볼라 백신 생산 공정 고도화와 차세대 백신 개발을 진행하는 모습을 보며, 결국 백신 산업에서도 안정적인 공정 운영과 데이터 신뢰성이 핵심 경쟁력이라고 느꼈습니다. 저 역시 석사 과정에서 핵산 정제 조건을 반복적으로 분석하며 순도를 25% 향상시킨 경험이 있고, 연구실 안전 프로세스를 체계화해 감사 지적사항 0건을 달성한 경험이 있습니다. 이러한 분석력과 공정 개선 경험을 바탕으로 SK바이오사이언스의 안정적인 백신 생산과 품질 향상에 기여하고 싶습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> CEPI, 에볼라 백신 등 구체적 사업 이슈 언급. "왜 나인가"를 본인 경험과 직결해 피상적 지원동기와 명확히 차별화.</div>
+          </div>
+
+          <div class="si-qa-item si-highlight-pass">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">지원한 DSP 공정 분석 업무에 대해 어떻게 이해하고 계시며, 본인이 적합한 이유는?</span><span class="si-q-tag si-k-tag">L질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">"DSP 공정 분석은 백신 및 바이오 의약품 생산 과정에서 단백질과 핵산을 안정적으로 정제하고, 공정 데이터의 신뢰성을 확보하는 역할이라고 이해하고 있습니다. 저는 석사 과정 동안 핵산 정제 조건을 최적화하며 순도를 25% 향상시킨 경험이 있고, chromatography 기반 단백질 정제 실험도 수행했습니다. 또한 실험 데이터를 반복적으로 분석하며 공정 조건을 개선했던 경험이 많아 DSP 공정 분석 직무와 잘 맞는다고 생각합니다. 부족한 부분 역시 빠르게 학습하며 현업에 필요한 역량을 꾸준히 채워가겠습니다</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 직무 정의 → 경험 연결의 명확한 구조. 추상적 "잘할 수 있다"가 아닌 구체적 경험으로 적합성 입증.</div>
+          </div>
+      
+          <div class="si-qa-item si-highlight-pass">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">현재 SK바이오사이언스에서 개발 중인 제품에 대해 알고 있는 부분을 설명해보세요.</span><span class="si-q-tag si-k-tag">L질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">"SK바이오사이언스는 기존 백신뿐 아니라 mRNA 기반 차세대 백신과 다양한 플랫폼 기술 확대에 집중하고 있는 것으로 알고 있습니다. 특히 백신 종류에 따라 핵산, 단백질 등 타겟 물질의 특성이 다르기 때문에 각각에 맞는 정제 공정과 분석 방식이 중요하다고 생각합니다. DSP 공정 분석 직무 역시 단순 시험 업무를 넘어 공정 안정성과 데이터 신뢰성을 확보하는 역할이 중요하다고 생각합니다. 저 또한 핵산 정제 조건을 최적화하며 순도를 개선했던 경험이 있는 만큼, 부족한 부분은 실제 공정과 제품 특성에 맞춰 빠르게 학습하며 기여하고 싶습니다.</div></div>
+          </div>
+          
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">한국과학기술원 인턴 경험에 대해 설명해주세요.</span><span class="si-q-tag si-m-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">한국과학기술원에서 약 3개월간 인턴 연구원으로 근무하며 분석 장비 운영과 실험 데이터 검증 업무를 수행했습니다. 당시 자체 개발 분석법의 활용 가능성을 평가하기 위해 상용 dPCR 장비와 비교 실험을 진행했는데, 분석 시간은 약 40% 단축되고 검출량은 증가했지만 민감도가 낮아지는 문제를 발견했습니다. 이후 원인을 분석하며 증폭 조건 개선 방향까지 제안한 경험이 있습니다. 또한 실험 과정과 장비 세팅 내용을 문서화하며 데이터 관리 역량도 키울 수 있었고, 이러한 분석력과 꼼꼼함을 DSP 공정 분석 직무에서도 발휘하고 싶습니다.</div></div>
+          </div>
+          
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">본인의 장단점에 대해 말씀해주세요.</span><span class="si-q-tag si-m-tag">M질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">저의 장점은 다양한 관점에서 원인을 분석하는 융합적 사고라고 생각합니다. 실제로 실험 과정에서 이미징 신호가 약해지는 문제가 발생했을 때, 단순히 장비 문제로 보기보다 생물학적 실험 조건과 현미경 세팅을 함께 검토하며 원인을 분석했던 경험이 있습니다. 반면 단점은 원칙을 중요하게 생각하다 보니 다소 융통성이 부족했던 점입니다. 과거에는 규정을 지나치게 엄격하게 지키려다 비효율적으로 일한 경험도 있었지만, 이후에는 원칙은 지키되 AI와 같은 새로운 기술도 적극적으로 활용하며 더 효율적으로 업무하는 방향으로 개선하고 있습니다.</div></div>
+          </div>
+
+          <div class="si-qa-item si-highlight-pass">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">그렇다면 융통성을 기르기 위해 어떤 노력을 하고 계신가요?</span><span class="si-q-tag si-k-tag">K질문 (꼬리)</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">연구실 경험을 통해 많이 개선하고 있습니다. 실제로 단백질 정제 과정에서 컬럼 세팅 문제로 공기가 유입돼 단백질 회수율이 약 30% 이상 감소한 적이 있었습니다. 당시 바로 컬럼을 교체하기보다 imidazole 농도와 세척 조건을 조정해 회수율을 최대한 복구했고, 이후 cleaning과 degassing 단계를 추가해 컬럼 재사용 횟수도 기존 대비 2배 이상 늘릴 수 있었습니다. 이를 통해 원칙은 지키되 상황에 맞게 유연하게 해결하는 태도를 배우고 있습니다.</div></div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">PCR 시험법 디자인에 대해서 아는 대로 설명해주세요.</span><span class="si-q-tag si-k-tag">K질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">"PCR 시험법 디자인은 원하는 유전자를 정확하고 재현성 있게 검출할 수 있도록 primer, probe, 반응 조건 등을 최적화하는 과정이라고 이해하고 있습니다. 실제로 연구실에서 dPCR 기반 분석법을 개발하며 primer 조건과 반응 조건을 최적화한 경험이 있습니다. 당시 dPCR 장비 사용 횟수가 제한적이었기 때문에 내부 qPCR 장비를 활용해 미리 반응 조건을 검증했고, 이를 통해 실제 dPCR 실험 횟수를 줄이면서도 원하는 검출 결과를 확보할 수 있었습니다. 이 경험을 통해 시험법 설계에서는 정확성뿐 아니라 자원과 시간 효율까지 함께 고려하는 것이 중요하다고 배웠습니다.</div></div>
+            <div class="si-analysis si-analysis-pass"><span>✓</span> 개념 정의 → 실전 경험 연결의 구조. 이론+경험을 함께 제시해 기술 신뢰도 상승.</div>
+          </div>
+
+          <div class="si-qa-item">
+            <div class="si-q-row"><span class="si-q-label">Q</span><span class="si-q-text">마지막으로 하고 싶은 말 있으신가요?</span><span class="si-q-tag si-e-tag">E질문</span></div>
+            <div class="si-a-row"><span class="si-a-label si-a-pass">A</span><div class="si-a-text">"아직 부족한 부분도 있지만, 배우는 속도와 끝까지 해결하려는 태도에는 자신 있습니다. 지금까지 쌓아온 분석 경험과 꼼꼼함을 바탕으로 SK바이오사이언스에 꼭 필요한 인재로 성장하겠습니다. 감사합니다."</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 핵심 인사이트 -->
+    <div class="si-section">
+      <div class="si-section-title">면접의 흐름을 내가 만들어라</div>
+      <div class="si-section-sub">합격자의 전략에서 배운 3가지 핵심 인사이트입니다.</div>
+      <div class="si-insight-grid">
+        <div class="si-insight-card">
+          <div class="si-insight-num">01</div>
+          <div class="si-insight-title">필살기를 먼저 꺼내라</div>
+          <div class="si-insight-desc">1분 자기소개는 당신이 유일하게 질문 없이 말할 수 있는 시간. 핵심 경험 2개를 먼저 제시해 이후 질문의 방향을 설계하라.</div>
+        </div>
+        <div class="si-insight-card">
+          <div class="si-insight-num">02</div>
+          <div class="si-insight-title">어떤 질문도 같은 답으로</div>
+          <div class="si-insight-desc">강점, 실패, 갈등 — 모든 인성 질문의 답은 결국 핵심경험으로 귀결돼야 한다. 경험의 일관성이 신뢰를 만든다.</div>
+        </div>
+        <div class="si-insight-card">
+          <div class="si-insight-num">03</div>
+          <div class="si-insight-title">직무 연결성을 구체적으로</div>
+          <div class="si-insight-desc">나의 연구가 실제 공정에 어느 부분에 적용되는지 사전 조사로 파악하라. 피상적인 지원동기는 가장 쉽게 탈락한다.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span class="footer-brand-mark">SK</span></div>
+    * 면접 후기 데이터 기반 · 유사 질문 클러스터링 분석 · KML: 직무역량(K) · 인성관점(M) · 로열티(L)
+  </div>
+
+</div>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+function switchTranscriptTab(type, btn) {
+  document.getElementById('si-tab-fail').style.display = type === 'fail' ? 'block' : 'none';
+  document.getElementById('si-tab-pass').style.display = type === 'pass' ? 'block' : 'none';
+  document.querySelectorAll('.si-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+new Chart(document.getElementById('pieChart').getContext('2d'), {
+  type: 'doughnut',
+  data: {
+    labels: ['K 직무역량', 'M 인성/관점', 'L 로열티', 'E 기타'],
+    datasets: [{
+      data: [110, 91, 55, 29],
+      backgroundColor: ['#2563eb','#9333ea','#059669','#6b7280'],
+      borderWidth: 4,
+      borderColor: '#faf8f4',
+    }]
+  },
+  options: {
+    cutout: '62%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#7a7065', font: { family: 'Noto Sans KR', size: 11 }, boxWidth: 12, boxHeight: 12, padding: 12 }
+      },
+      tooltip: {
+        callbacks: { label: ctx => ` ${ctx.parsed}개 (${(ctx.parsed/285*100).toFixed(1)}%)` },
+        backgroundColor: '#ffffff', borderColor: '#e5e0d8', borderWidth: 1,
+        titleColor: '#1a1612', bodyColor: '#7a7065', padding: 12,
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
